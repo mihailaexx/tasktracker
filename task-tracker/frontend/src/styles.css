@@ -1,3 +1,9 @@
+/* Tailwind CSS v4 */
+@import "tailwindcss";
+
+/* PrimeNG */
+@import "tailwindcss-primeui";
+
 /* Global Styles */
 * {
   margin: 0;
@@ -18,7 +24,7 @@ body {
   padding: 0 20px;
 }
 
-/* Button Styles */
+/* Button Styles - Kept for backward compatibility */
 .btn {
   display: inline-block;
   font-weight: 400;
@@ -94,7 +100,7 @@ body {
   border-color: #bd2130;
 }
 
-/* Form Styles */
+/* Form Styles - Kept for backward compatibility */
 .form-control {
   display: block;
   width: 100%;

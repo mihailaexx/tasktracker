@@ -3,157 +3,135 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router } from '@angular/router';
 import { AuthService, AuthResponse } from '../../core/services/auth.service';
 import { NgIf } from '@angular/common';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { InputTextModule } from 'primeng/inputtext';
+import { PasswordModule } from 'primeng/password';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-register',
   template: `
-    <div class="auth-container">
-      <div class="auth-form">
-        <h2>Register</h2>
-        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-          <div class="form-group">
-            <label for="username">Username</label>
-            <input 
-              type="text" 
-              id="username" 
-              formControlName="username" 
-              class="form-control"
-              [class.is-invalid]="registerForm.get('username')?.invalid && registerForm.get('username')?.touched">
-            <div class="invalid-feedback" *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched">
-              <div *ngIf="registerForm.get('username')?.errors?.['required']">Username is required</div>
-              <div *ngIf="registerForm.get('username')?.errors?.['minlength']">Username must be at least 3 characters</div>
-            </div>
+    <div class="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+      <div class="card shadow-lg w-full max-w-md">
+        <div class="card-body p-8">
+          <div class="text-center mb-8">
+            <i class="pi pi-user-plus text-4xl text-blue-500 mb-3"></i>
+            <h1 class="text-2xl font-bold text-gray-800">Create Account</h1>
+            <p class="text-gray-600">Sign up to get started</p>
           </div>
           
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input 
-              type="email" 
-              id="email" 
-              formControlName="email" 
-              class="form-control"
-              [class.is-invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
-            <div class="invalid-feedback" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
-              <div *ngIf="registerForm.get('email')?.errors?.['required']">Email is required</div>
-              <div *ngIf="registerForm.get('email')?.errors?.['email']">Please enter a valid email</div>
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <div class="mb-5">
+              <label for="username" class="block text-gray-700 font-medium mb-2">Username</label>
+              <input 
+                pInputText
+                type="text" 
+                id="username" 
+                formControlName="username" 
+                class="w-full"
+                [class.ng-invalid]="registerForm.get('username')?.invalid && registerForm.get('username')?.touched">
+              <small class="text-red-500" *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched">
+                <div *ngIf="registerForm.get('username')?.errors?.['required']">Username is required</div>
+                <div *ngIf="registerForm.get('username')?.errors?.['minlength']">Username must be at least 3 characters</div>
+              </small>
             </div>
-          </div>
-          
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input 
-              type="password" 
-              id="password" 
-              formControlName="password" 
-              class="form-control"
-              [class.is-invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
-            <div class="invalid-feedback" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
-              <div *ngIf="registerForm.get('password')?.errors?.['required']">Password is required</div>
-              <div *ngIf="registerForm.get('password')?.errors?.['minlength']">Password must be at least 8 characters</div>
+            
+            <div class="mb-5">
+              <label for="email" class="block text-gray-700 font-medium mb-2">Email</label>
+              <input 
+                pInputText
+                type="email" 
+                id="email" 
+                formControlName="email" 
+                class="w-full"
+                [class.ng-invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+              <small class="text-red-500" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+                <div *ngIf="registerForm.get('email')?.errors?.['required']">Email is required</div>
+                <div *ngIf="registerForm.get('email')?.errors?.['email']">Please enter a valid email</div>
+              </small>
             </div>
-          </div>
-          
-          <div class="form-group">
-            <label for="confirmPassword">Confirm Password</label>
-            <input 
-              type="password" 
-              id="confirmPassword" 
-              formControlName="confirmPassword" 
-              class="form-control"
-              [class.is-invalid]="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched">
-            <div class="invalid-feedback" *ngIf="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched">
-              <div *ngIf="registerForm.get('confirmPassword')?.errors?.['required']">Please confirm your password</div>
+            
+            <div class="mb-5">
+              <label for="password" class="block text-gray-700 font-medium mb-2">Password</label>
+              <p-password 
+                id="password" 
+                formControlName="password" 
+                class="w-full"
+                [class.ng-invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+                [feedback]="true"
+                toggleMask="true">
+              </p-password>
+              <small class="text-red-500" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+                <div *ngIf="registerForm.get('password')?.errors?.['required']">Password is required</div>
+                <div *ngIf="registerForm.get('password')?.errors?.['minlength']">Password must be at least 8 characters</div>
+              </small>
             </div>
-          </div>
+            
+            <div class="mb-6">
+              <label for="confirmPassword" class="block text-gray-700 font-medium mb-2">Confirm Password</label>
+              <p-password 
+                id="confirmPassword" 
+                formControlName="confirmPassword" 
+                class="w-full"
+                [class.ng-invalid]="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched"
+                [feedback]="false"
+                toggleMask="true">
+              </p-password>
+              <small class="text-red-500" *ngIf="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched">
+                <div *ngIf="registerForm.get('confirmPassword')?.errors?.['required']">Please confirm your password</div>
+              </small>
+              <small class="text-red-500" *ngIf="registerForm.hasError('mismatch') && registerForm.get('confirmPassword')?.touched">
+                Passwords do not match
+              </small>
+            </div>
+            
+            <div class="mb-6">
+              <p-button 
+                type="submit" 
+                label="Sign Up" 
+                icon="pi pi-user-plus"
+                class="w-full"
+                [disabled]="registerForm.invalid">
+              </p-button>
+            </div>
+          </form>
           
-          <div class="form-actions">
-            <button 
-              type="submit" 
-              class="btn btn-primary" 
-              [disabled]="registerForm.invalid">
-              Register
-            </button>
+          <div class="text-center border-t border-gray-200 pt-6">
+            <p class="text-gray-600">
+              Already have an account? 
+              <a class="text-blue-500 hover:underline cursor-pointer font-medium" (click)="navigateToLogin()">
+                Sign in here
+              </a>
+            </p>
           </div>
-        </form>
-        
-        <div class="auth-footer">
-          <p>Already have an account? <a (click)="navigateToLogin()">Login</a></p>
         </div>
       </div>
     </div>
   `,
   styles: [`
-    .auth-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 70vh;
-    }
-    
-    .auth-form {
-      width: 100%;
-      max-width: 400px;
-      padding: 30px;
-      border: 1px solid #eee;
+    .card {
+      background: white;
       border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
     
-    .form-group {
-      margin-bottom: 20px;
+    .card-body {
+      padding: 2rem;
     }
     
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
-    
-    .form-control {
+    :host ::ng-deep .p-password input {
       width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 1em;
-    }
-    
-    .form-control:focus {
-      border-color: #007bff;
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
-    }
-    
-    .is-invalid {
-      border-color: #dc3545;
-    }
-    
-    .invalid-feedback {
-      color: #dc3545;
-      font-size: 0.875em;
-      margin-top: 5px;
-    }
-    
-    .form-actions {
-      margin-top: 30px;
-    }
-    
-    .auth-footer {
-      text-align: center;
-      margin-top: 20px;
-      padding-top: 20px;
-      border-top: 1px solid #eee;
-    }
-    
-    .auth-footer a {
-      color: #007bff;
-      cursor: pointer;
-      text-decoration: underline;
     }
   `],
   imports: [
     ReactiveFormsModule,
-    NgIf
-  ]
+    NgIf,
+    ButtonModule,
+    CardModule,
+    InputTextModule,
+    PasswordModule
+  ],
+  providers: [MessageService]
 })
 export class RegisterComponent {
   registerForm: FormGroup;
@@ -161,7 +139,8 @@ export class RegisterComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService
   ) {
     this.registerForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
@@ -200,15 +179,27 @@ export class RegisterComponent {
     this.authService.register(userData).subscribe({
       next: (response: AuthResponse) => {
         if (response.success) {
-          alert('Registration successful! You can now log in.');
+          this.messageService.add({ 
+            severity: 'success', 
+            summary: 'Success', 
+            detail: 'Registration successful! You can now log in.' 
+          });
           this.router.navigate(['/login']);
         } else {
-          alert(response.message);
+          this.messageService.add({ 
+            severity: 'error', 
+            summary: 'Error', 
+            detail: response.message 
+          });
         }
       },
       error: (error: any) => {
         console.error('Registration error:', error);
-        alert('Registration failed. Please try again.');
+        this.messageService.add({ 
+          severity: 'error', 
+          summary: 'Error', 
+          detail: 'Registration failed. Please try again.' 
+        });
       }
     });
   }

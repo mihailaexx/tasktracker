@@ -1,273 +1,102 @@
-#25 19.10 Warning: src/app/app.component.ts:15:36 - warning NG8103: The `*ngIf` directive was used in the template, but neither the `NgIf` directive nor the `CommonModule` was imported. Use Angular's built-in control flow @if or make sure that either the `NgIf` directive or the `CommonModule` is included in the `@Component.imports` array of this component.  
-#25 19.10
-#25 19.10 15           <div class="auth-links" *ngIf="isAuthenticated; else loginLinks">
-#25 19.10                                       ~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10 Warning: src/app/app.component.ts:15:59 - warning NG8116: A structural directive `ngIfElse` was used in the template without a corresponding import in the component. Make sure that the directive is included in the `@Component.imports` array of this component.
-#25 19.10
-#25 19.10 15           <div class="auth-links" *ngIf="isAuthenticated; else loginLinks">
-#25 19.10                                                              ~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10 Warning: src/app/core/auth/login.component.ts:21:44 - warning NG8103: The `*ngIf` directive was used in the template, but neither the `NgIf` directive nor the `CommonModule` was imported. Use Angular's built-in control flow @if or make sure that either the `NgIf` directive or the `CommonModule` is included in the `@Component.imports` array of this component.
-#25 19.10
-#25 19.10 21             <div class="invalid-feedback" *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
-#25 19.10                                               ~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10 Warning: src/app/core/auth/login.component.ts:34:44 - warning NG8103: The `*ngIf` directive was used in the template, but neither the `NgIf` directive nor the `CommonModule` was imported. Use Angular's built-in control flow @if or make sure that either the `NgIf` directive or the `CommonModule` is included in the `@Component.imports` array of this component.
-#25 19.10
-#25 19.10 34             <div class="invalid-feedback" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-#25 19.10                                               ~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10 Warning: src/app/core/auth/register.component.ts:21:44 - warning NG8103: The `*ngIf` directive was used in the template, but neither the `NgIf` directive nor the `CommonModule` was imported. Use Angular's built-in control flow @if or make sure that either the `NgIf` directive or the `CommonModule` is included in the `@Component.imports` array of this component.
-#25 19.10
-#25 19.10 21             <div class="invalid-feedback" *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched">
-#25 19.10                                               ~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10 Warning: src/app/core/auth/register.component.ts:22:21 - warning NG8103: The `*ngIf` directive was used in the template, but neither the `NgIf` directive nor the `CommonModule` was imported. Use Angular's built-in control flow @if or make sure that either the `NgIf` directive or the `CommonModule` is included in the `@Component.imports` array of this component.
-#25 19.10
-#25 19.10 22               <div *ngIf="registerForm.get('username')?.errors?.['required']">Username is required</div>
-#25 19.10                        ~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10 Warning: src/app/core/auth/register.component.ts:23:21 - warning NG8103: The `*ngIf` directive was used in the template, but neither the `NgIf` directive nor the `CommonModule` was imported. Use Angular's built-in control flow @if or make sure that either the `NgIf` directive or the `CommonModule` is included in the `@Component.imports` array of this component.
-#25 19.10
-#25 19.10 23               <div *ngIf="registerForm.get('username')?.errors?.['minlength']">Username must be at least 3 characters</div>
-#25 19.10                        ~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10 Warning: src/app/core/auth/register.component.ts:35:44 - warning NG8103: The `*ngIf` directive was used in the template, but neither the `NgIf` directive nor the `CommonModule` was imported. Use Angular's built-in control flow @if or make sure that either the `NgIf` directive or the `CommonModule` is included in the `@Component.imports` array of this component.
-#25 19.10
-#25 19.10 35             <div class="invalid-feedback" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
-#25 19.10                                               ~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10 Warning: src/app/core/auth/register.component.ts:36:21 - warning NG8103: The `*ngIf` directive was used in the template, but neither the `NgIf` directive nor the `CommonModule` was imported. Use Angular's built-in control flow @if or make sure that either the `NgIf` directive or the `CommonModule` is included in the `@Component.imports` array of this component.
-#25 19.10
-#25 19.10 36               <div *ngIf="registerForm.get('email')?.errors?.['required']">Email is required</div>
-#25 19.10                        ~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10 Warning: src/app/core/auth/register.component.ts:37:21 - warning NG8103: The `*ngIf` directive was used in the template, but neither the `NgIf` directive nor the `CommonModule` was imported. Use Angular's built-in control flow @if or make sure that either the `NgIf` directive or the `CommonModule` is included in the `@Component.imports` array of this component.
-#25 19.10
-#25 19.10 37               <div *ngIf="registerForm.get('email')?.errors?.['email']">Please enter a valid email</div>
-#25 19.10                        ~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10 Warning: src/app/core/auth/register.component.ts:49:44 - warning NG8103: The `*ngIf` directive was used in the template, but neither the `NgIf` directive nor the `CommonModule` was imported. Use Angular's built-in control flow @if or make sure that either the `NgIf` directive or the `CommonModule` is included in the `@Component.imports` array of this component.
-#25 19.10
-#25 19.10 49             <div class="invalid-feedback" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
-#25 19.10                                               ~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10 Warning: src/app/core/auth/register.component.ts:50:21 - warning NG8103: The `*ngIf` directive was used in the template, but neither the `NgIf` directive nor the `CommonModule` was imported. Use Angular's built-in control flow @if or make sure that either the `NgIf` directive or the `CommonModule` is included in the `@Component.imports` array of this component.
-#25 19.10
-#25 19.10 50               <div *ngIf="registerForm.get('password')?.errors?.['required']">Password is required</div>
-#25 19.10                        ~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10 Warning: src/app/core/auth/register.component.ts:51:21 - warning NG8103: The `*ngIf` directive was used in the template, but neither the `NgIf` directive nor the `CommonModule` was imported. Use Angular's built-in control flow @if or make sure that either the `NgIf` directive or the `CommonModule` is included in the `@Component.imports` array of this component.
-#25 19.10
-#25 19.10 51               <div *ngIf="registerForm.get('password')?.errors?.['minlength']">Password must be at least 8 characters</div>
-#25 19.10                        ~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10 Warning: src/app/core/auth/register.component.ts:63:44 - warning NG8103: The `*ngIf` directive was used in the template, but neither the `NgIf` directive nor the `CommonModule` was imported. Use Angular's built-in control flow @if or make sure that either the `NgIf` directive or the `CommonModule` is included in the `@Component.imports` array of this component.
-#25 19.10
-#25 19.10 63             <div class="invalid-feedback" *ngIf="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched">
-#25 19.10                                               ~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10 Warning: src/app/core/auth/register.component.ts:64:21 - warning NG8103: The `*ngIf` directive was used in the template, but neither the `NgIf` directive nor the `CommonModule` was imported. Use Angular's built-in control flow @if or make sure that either the `NgIf` directive or the `CommonModule` is included in the `@Component.imports` array of this component.
-#25 19.10
-#25 19.10 64               <div *ngIf="registerForm.get('confirmPassword')?.errors?.['required']">Please confirm your password</div>
-#25 19.10                        ~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10 Warning: src/app/profile/profile.component.ts:14:13 - warning NG8103: The `*ngIf` directive was used in the template, but neither the `NgIf` directive nor the `CommonModule` was imported. Use Angular's built-in control flow @if or make sure that either the `NgIf` directive or the `CommonModule` is included in the `@Component.imports` array of this component.
-#25 19.10
-#25 19.10 14       <div *ngIf="!isAuthenticated; else authenticatedView">
-#25 19.10                ~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10 Warning: src/app/profile/profile.component.ts:14:37 - warning NG8116: A structural directive `ngIfElse` was used in the template without a corresponding import in the component. Make sure that the directive is included in the `@Component.imports` array of this component.
-#25 19.10
-#25 19.10 14       <div *ngIf="!isAuthenticated; else authenticatedView">
-#25 19.10                                        ~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10 Warning: src/app/profile/profile.component.ts:68:44 - warning NG8103: The `*ngIf` directive was used in the template, but neither the `NgIf` directive nor the `CommonModule` was imported. Use Angular's built-in control flow @if or make sure that either the `NgIf` directive or the `CommonModule` is included in the `@Component.imports` array of this component.
-#25 19.10
-#25 19.10 68             <div class="invalid-feedback" *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched">
-#25 19.10                                               ~~~~
-#25 19.10 
-#25 19.10
-#25 19.10
-#25 19.10 Warning: src/app/profile/profile.component.ts:85:17 - warning NG8103: The `*ngIf` directive was used in the template, but neither the `NgIf` directive nor the `CommonModule` was imported. Use Angular's built-in control flow @if or make sure that either the `NgIf` directive or the `CommonModule` is included in the `@Component.imports` array of this component.
-#25 19.10
-#25 19.10 85           <div *ngIf="tasks.length === 0" class="no-tasks">
-#25 19.10                    ~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10 Warning: src/app/profile/profile.component.ts:89:35 - warning NG8103: The `*ngIf` directive was used in the template, but neither the `NgIf` directive nor the `CommonModule` was imported. Use Angular's built-in control flow @if or make sure that either the `NgIf` directive or the `CommonModule` is included in the `@Component.imports` array of this component.
-#25 19.10
-#25 19.10 89           <div class="task-list" *ngIf="tasks.length > 0">
-#25 19.10                                      ~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10 Warning: src/app/profile/profile.component.ts:90:37 - warning NG8103: The `*ngFor` directive was used in the template, but neither the `NgFor` directive nor the `CommonModule` was imported. Use Angular's built-in control flow @for or make sure that either the `NgFor` directive or the `CommonModule` is included in the `@Component.imports` array of this component.
-#25 19.10
-#25 19.10 90             <div class="task-item" *ngFor="let task of tasks">
-#25 19.10                                        ~~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10 Warning: src/app/tasks/task-form/task-form.component.ts:12:13 - warning NG8103: The `*ngIf` directive was used in the template, but neither the `NgIf` directive nor the `CommonModule` was imported. Use Angular's built-in control flow @if or make sure that either the `NgIf` directive or the `CommonModule` is included in the `@Component.imports` array of this component.
-#25 19.10
-#25 19.10 12       <div *ngIf="!isAuthenticated; else authenticatedView">
-#25 19.10                ~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10 Warning: src/app/tasks/task-form/task-form.component.ts:12:37 - warning NG8116: A structural directive `ngIfElse` was used in the template without a corresponding import in the component. Make sure that the directive is included in the `@Component.imports` array of this component.
-#25 19.10
-#25 19.10 12       <div *ngIf="!isAuthenticated; else authenticatedView">
-#25 19.10                                        ~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10 Warning: src/app/tasks/task-form/task-form.component.ts:33:44 - warning NG8103: The `*ngIf` directive was used in the template, but neither the `NgIf` directive nor the `CommonModule` was imported. Use Angular's built-in control flow @if or make sure that either the `NgIf` directive or the `CommonModule` is included in the `@Component.imports` array of this component.
-#25 19.10
-#25 19.10 33             <div class="invalid-feedback" *ngIf="taskForm.get('title')?.invalid && taskForm.get('title')?.touched">
-#25 19.10                                               ~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10 Warning: src/app/tasks/task-list/task-list.component.ts:11:13 - warning NG8103: The `*ngIf` directive was used in the template, but neither the `NgIf` directive nor the `CommonModule` was imported. Use Angular's built-in control flow @if or make sure that either the `NgIf` directive or the `CommonModule` is included in the `@Component.imports` array of this component.
-#25 19.10
-#25 19.10 11       <div *ngIf="!isAuthenticated; else authenticatedView">
-#25 19.10                ~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10 Warning: src/app/tasks/task-list/task-list.component.ts:11:37 - warning NG8116: A structural directive `ngIfElse` was used in the template without a corresponding import in the component. Make sure that the directive is included in the `@Component.imports` array of this component.
-#25 19.10
-#25 19.10 11       <div *ngIf="!isAuthenticated; else authenticatedView">
-#25 19.10                                        ~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10 Warning: src/app/tasks/task-list/task-list.component.ts:34:35 - warning NG8103: The `*ngFor` directive was used in the template, but neither the `NgFor` directive nor the `CommonModule` was imported. Use Angular's built-in control flow @for or make sure that either the `NgFor` directive or the `CommonModule` is included in the `@Component.imports` array of this component.
-#25 19.10
-#25 19.10 34           <div class="task-item" *ngFor="let task of filteredTasks">
-#25 19.10                                      ~~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10 Warning: src/app/tasks/task-list/task-list.component.ts:49:34 - warning NG8103: The `*ngIf` directive was used in the template, but neither the `NgIf` directive nor the `CommonModule` was imported. Use Angular's built-in control flow @if or make sure that either the `NgIf` directive or the `CommonModule` is included in the `@Component.imports` array of this component.
-#25 19.10
-#25 19.10 49           <div class="no-tasks" *ngIf="filteredTasks.length === 0">
-#25 19.10                                     ~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10 Error: src/app/app.component.ts:26:9 - error NG8001: 'router-outlet' is not a known element:
-#25 19.10 1. If 'router-outlet' is an Angular component, then verify that it is included in the '@Component.imports' of this component.
-#25 19.10 2. If 'router-outlet' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.
-#25 19.10
-#25 19.10 26         <router-outlet></router-outlet>
-#25 19.10            ~~~~~~~~~~~~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10 Error: src/app/core/auth/login.component.ts:12:15 - error NG8002: Can't bind to 'formGroup' since it isn't a known property of 'form'.
-#25 19.10
-#25 19.10 12         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-#25 19.10                  ~~~~~~~~~~~~~~~~~~~~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10 Error: src/app/core/auth/register.component.ts:12:15 - error NG8002: Can't bind to 'formGroup' since it isn't a known property of 'form'.
-#25 19.10
-#25 19.10 12         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-#25 19.10                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10 Error: src/app/profile/profile.component.ts:31:15 - error NG8002: Can't bind to 'formGroup' since it isn't a known property of 'form'.
-#25 19.10
-#25 19.10 31         <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
-#25 19.10                  ~~~~~~~~~~~~~~~~~~~~~~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10 Error: src/app/profile/profile.component.ts:97:65 - error NG8004: No pipe found with name 'date'.
-#25 19.10 To fix this, import the "DatePipe" class from "@angular/common" and add it to the "imports" array of the component.
-#25 19.10
-#25 19.10 97                 <span class="date">Updated: {{ task.updatedAt | date:'short' }}</span>
-#25 19.10                                                                    ~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10 Error: src/app/tasks/task-form/task-form.component.ts:24:15 - error NG8002: Can't bind to 'formGroup' since it isn't a known property of 'form'.
-#25 19.10
-#25 19.10 24         <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
-#25 19.10                  ~~~~~~~~~~~~~~~~~~~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10 Error: src/app/tasks/task-list/task-list.component.ts:41:63 - error NG8004: No pipe found with name 'date'.
-#25 19.10 To fix this, import the "DatePipe" class from "@angular/common" and add it to the "imports" array of the component.
-#25 19.10
-#25 19.10 41               <span class="date">Updated: {{ task.updatedAt | date:'short' }}</span>
-#25 19.10                                                                  ~~~~
-#25 19.10
-#25 19.10
-#25 19.10
-#25 19.10
-#25 ERROR: process "/bin/sh -c npm run build --prod" did not complete successfully: exit code: 1
-
-#20 [backend builder 4/6] RUN mvn dependency:go-offline -B
-#20 38.57 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/commons-beanutils/commons-beanutils/1.9.4/commons-beanutils-1.9.4.pom (18 kB at 101 kB/s)
-#20 38.57 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/commons/commons-parent/47/commons-parent-47.pom
-#20 CANCELED
+#35 [frontend build 6/6] RUN npm run build --prod
+#35 0.901 npm warn Expanding --prod to --production. This will stop working in the next major version of npm.
+#35 0.901 npm warn config production Use `--omit=dev` instead.
+#35 0.946
+#35 0.946 > task-tracker-frontend@1.0.1 build
+#35 0.946 > ng build
+#35 0.946
+#35 3.216 - Generating browser application bundles (phase: setup)...
+#35 29.83 ✔ Browser application bundle generation complete.
+#35 30.62 ✔ Browser application bundle generation complete.
+#35 30.63 
+#35 30.63 Warning: src/app/app.component.ts:50:5 - warning NG8113: RouterLinkActive is not used within the template of AppComponent
+#35 30.63
+#35 30.63 50     RouterLinkActive,
+#35 30.63        ~~~~~~~~~~~~~~~~
+#35 30.63
+#35 30.63
+#35 30.63 Warning: src/app/profile/profile.component.ts:177:5 - warning NG8113: NgForOf is not used within the template of ProfileComponent
+#35 30.63
+#35 30.63 177     NgFor,
+#35 30.63         ~~~~~
+#35 30.63
+#35 30.63
+#35 30.63 Warning: src/app/tasks/task-list/task-list.component.ts:125:5 - warning NG8113: NgForOf is not used within the template of TaskListComponent
+#35 30.63
+#35 30.63 125     NgFor,
+#35 30.63         ~~~~~
+#35 30.63
+#35 30.63
+#35 30.63
+#35 30.63
+#35 30.63 Error: node_modules/@primeuix/styled/dist/index.d.mts:1:43 - error TS2307: Cannot find module '@primeuix/utils/eventbus' or its corresponding type declarations.
+#35 30.63
+#35 30.63 1 import * as _primeuix_utils_eventbus from '@primeuix/utils/eventbus';
+#35 30.63                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~
+#35 30.63
+#35 30.63
+#35 30.63 Error: node_modules/@primeuix/utils/dist/index.d.mts:1:15 - error TS2307: Cannot find module '@primeuix/utils/classnames' or its corresponding type declarations.
+#35 30.63
+#35 30.63 1 export * from '@primeuix/utils/classnames';
+#35 30.63                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#35 30.63
+#35 30.63
+#35 30.63 Error: node_modules/@primeuix/utils/dist/index.d.mts:2:15 - error TS2307: Cannot find module '@primeuix/utils/dom' or its corresponding type declarations.
+#35 30.63
+#35 30.63 2 export * from '@primeuix/utils/dom';
+#35 30.63                 ~~~~~~~~~~~~~~~~~~~~~
+#35 30.63
+#35 30.63
+#35 30.63 Error: node_modules/@primeuix/utils/dist/index.d.mts:3:15 - error TS2307: Cannot find module '@primeuix/utils/eventbus' or its corresponding type declarations.
+#35 30.63
+#35 30.63 3 export * from '@primeuix/utils/eventbus';
+#35 30.63                 ~~~~~~~~~~~~~~~~~~~~~~~~~~
+#35 30.63
+#35 30.63
+#35 30.63 Error: node_modules/@primeuix/utils/dist/index.d.mts:4:15 - error TS2307: Cannot find module '@primeuix/utils/mergeprops' or its corresponding type declarations.
+#35 30.63
+#35 30.63 4 export * from '@primeuix/utils/mergeprops';
+#35 30.63                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#35 30.63
+#35 30.63
+#35 30.63 Error: node_modules/@primeuix/utils/dist/index.d.mts:5:15 - error TS2307: Cannot find module '@primeuix/utils/object' or its corresponding type declarations.
+#35 30.63
+#35 30.63 5 export * from '@primeuix/utils/object';
+#35 30.63                 ~~~~~~~~~~~~~~~~~~~~~~~~
+#35 30.63
+#35 30.63
+#35 30.63 Error: node_modules/@primeuix/utils/dist/index.d.mts:6:15 - error TS2307: Cannot find module '@primeuix/utils/uuid' or its corresponding type declarations.
+#35 30.63
+#35 30.63 6 export * from '@primeuix/utils/uuid';
+#35 30.63                 ~~~~~~~~~~~~~~~~~~~~~~
+#35 30.63
+#35 30.63
+#35 30.63 Error: node_modules/@primeuix/utils/dist/index.d.mts:7:15 - error TS2307: Cannot find module '@primeuix/utils/zindex' or its corresponding type declarations.
+#35 30.63
+#35 30.63 7 export * from '@primeuix/utils/zindex';
+#35 30.63                 ~~~~~~~~~~~~~~~~~~~~~~~~
+#35 30.63
+#35 30.63
+#35 30.63 Error: node_modules/primeng/basecomponent/index.d.ts:3:10 - error TS2305: Module '"@primeuix/utils"' has no exported member 'cn'.
+#35 30.63
+#35 30.63 3 import { cn } from '@primeuix/utils';
+#35 30.63            ~~
+#35 30.63
+#35 30.63
+#35 30.63
+#35 ERROR: process "/bin/sh -c npm run build --prod" did not complete successfully: exit code: 1
 ------
  > [frontend build 6/6] RUN npm run build --prod:
-19.10
-19.10 Error: src/app/tasks/task-list/task-list.component.ts:41:63 - error NG8004: No pipe found with name 'date'.
-19.10 To fix this, import the "DatePipe" class from "@angular/common" and add it to the "imports" array of the component.
-19.10
-19.10 41               <span class="date">Updated: {{ task.updatedAt | date:'short' }}</span>
-19.10                                                                  ~~~~
-19.10
-19.10
-19.10
-19.10
+30.63                 ~~~~~~~~~~~~~~~~~~~~~~~~
+30.63
+30.63
+30.63 Error: node_modules/primeng/basecomponent/index.d.ts:3:10 - error TS2305: Module '"@primeuix/utils"' has no exported member 'cn'.
+30.63
+30.63 3 import { cn } from '@primeuix/utils';
+30.63            ~~
+30.63
+30.63
+30.63
 ------
 Dockerfile.prod:20
 

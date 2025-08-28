@@ -6,281 +6,184 @@ import { TaskService } from '../core/services/task.service';
 import { Task } from '../core/models/task.model';
 import { AuthService } from '../core/services/auth.service';
 import { Router } from '@angular/router';
-import { NgFor, NgIf, DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { InputTextModule } from 'primeng/inputtext';
+import { TextareaModule } from 'primeng/textarea';
+import { PanelModule } from 'primeng/panel';
+import { TagModule } from 'primeng/tag';
+import { TableModule } from 'primeng/table';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-profile',
   template: `
-    <div class="profile-container">
+    <div class="p-4">
       <div *ngIf="!isAuthenticated; else authenticatedView">
-        <h2>Welcome to Task Tracker</h2>
-        <p>Please log in or register to access your tasks and profile.</p>
-        <div class="auth-actions">
-          <button class="btn btn-primary" (click)="navigateToLogin()">Login</button>
-          <button class="btn btn-secondary" (click)="navigateToRegister()">Register</button>
+        <div class="card shadow-lg">
+          <div class="card-body text-center py-12">
+            <i class="pi pi-home text-6xl text-blue-500 mb-4"></i>
+            <h2 class="text-2xl font-bold mb-2">Welcome to Task Tracker</h2>
+            <p class="text-gray-600 mb-6">Please log in or register to access your tasks and profile.</p>
+            <div class="flex justify-center gap-4">
+              <p-button label="Login" icon="pi pi-sign-in" (click)="navigateToLogin()" />
+              <p-button label="Register" icon="pi pi-user-plus" (click)="navigateToRegister()" severity="secondary" />
+            </div>
+          </div>
         </div>
       </div>
       
       <ng-template #authenticatedView>
-        <h2>User Profile</h2>
-        
-        <div class="user-info">
-          <h3>Hi, {{ username }}!</h3>
-          <p>Here's your profile information and tasks:</p>
+        <div class="mb-6">
+          <h1 class="text-3xl font-bold text-gray-800">User Profile</h1>
+          <p class="text-gray-600">Manage your profile information</p>
         </div>
         
-        <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
-          <div class="form-group">
-            <label for="username">Username</label>
-            <input 
-              type="text" 
-              id="username" 
-              formControlName="username" 
-              class="form-control"
-              readonly>
-          </div>
-          
-          <div class="form-group">
-            <label for="firstName">First Name</label>
-            <input 
-              type="text" 
-              id="firstName" 
-              formControlName="firstName" 
-              class="form-control">
-          </div>
-          
-          <div class="form-group">
-            <label for="lastName">Last Name</label>
-            <input 
-              type="text" 
-              id="lastName" 
-              formControlName="lastName" 
-              class="form-control">
-          </div>
-          
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input 
-              type="email" 
-              id="email" 
-              formControlName="email" 
-              class="form-control"
-              [class.is-invalid]="profileForm.get('email')?.invalid && profileForm.get('email')?.touched">
-            <div class="invalid-feedback" *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched">
-              Please enter a valid email address
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="card shadow-lg">
+            <div class="card-body">
+              <h3 class="text-xl font-semibold mb-4">Profile Information</h3>
+              <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+                <div class="mb-4">
+                  <label for="username" class="block text-gray-700 font-medium mb-2">Username</label>
+                  <input 
+                    pInputText
+                    type="text" 
+                    id="username" 
+                    formControlName="username" 
+                    class="w-full"
+                    readonly>
+                </div>
+                
+                <div class="mb-4">
+                  <label for="firstName" class="block text-gray-700 font-medium mb-2">First Name</label>
+                  <input 
+                    pInputText
+                    type="text" 
+                    id="firstName" 
+                    formControlName="firstName" 
+                    class="w-full">
+                </div>
+                
+                <div class="mb-4">
+                  <label for="lastName" class="block text-gray-700 font-medium mb-2">Last Name</label>
+                  <input 
+                    pInputText
+                    type="text" 
+                    id="lastName" 
+                    formControlName="lastName" 
+                    class="w-full">
+                </div>
+                
+                <div class="mb-6">
+                  <label for="email" class="block text-gray-700 font-medium mb-2">Email</label>
+                  <input 
+                    pInputText
+                    type="email" 
+                    id="email" 
+                    formControlName="email" 
+                    class="w-full"
+                    [class.ng-invalid]="profileForm.get('email')?.invalid && profileForm.get('email')?.touched">
+                  <small class="text-red-500" *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched">
+                    Please enter a valid email address
+                  </small>
+                </div>
+                
+                <div class="flex justify-end">
+                  <p-button 
+                    type="submit" 
+                    label="Update Profile" 
+                    icon="pi pi-save"
+                    [disabled]="profileForm.invalid || profileForm.pristine">
+                  </p-button>
+                </div>
+              </form>
             </div>
           </div>
           
-          <div class="form-actions">
-            <button 
-              type="submit" 
-              class="btn btn-primary" 
-              [disabled]="profileForm.invalid || profileForm.pristine">
-              Update Profile
-            </button>
+          <div class="card shadow-lg">
+            <div class="card-body">
+              <h3 class="text-xl font-semibold mb-4">Your Tasks</h3>
+              <p-table 
+                [value]="tasks" 
+                [paginator]="true" 
+                [rows]="5"
+                responsiveLayout="scroll"
+                styleClass="p-datatable-sm">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>Title</th>
+                    <th>Status</th>
+                    <th>Updated</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-task>
+                  <tr>
+                    <td class="font-medium">{{ task.title }}</td>
+                    <td>
+                      <p-tag [severity]="getSeverity(task.status)" [value]="task.status"></p-tag>
+                    </td>
+                    <td>{{ task.updatedAt | date:'short' }}</td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="3" class="text-center py-4">No tasks found.</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
           </div>
-        </form>
+        </div>
       </ng-template>
     </div>
   `,
   styles: [`
-    .profile-container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px 0;
-    }
-    
-    .auth-actions {
-      display: flex;
-      gap: 15px;
-      margin-top: 20px;
-    }
-    
-    .user-info {
-      margin-bottom: 30px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid #eee;
-    }
-    
-    .user-info h3 {
-      margin: 0 0 10px 0;
-      color: #007bff;
-    }
-    
-    .form-group {
-      margin-bottom: 20px;
-    }
-    
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
-    
-    .form-control {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 1em;
-    }
-    
-    .form-control:focus {
-      border-color: #007bff;
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
-    }
-    
-    .form-control:read-only {
-      background-color: #f8f9fa;
-    }
-    
-    .is-invalid {
-      border-color: #dc3545;
-    }
-    
-    .invalid-feedback {
-      color: #dc3545;
-      font-size: 0.875em;
-      margin-top: 5px;
-    }
-    
-    .form-actions {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 30px;
-    }
-    
-    .tasks-section {
-      margin-top: 40px;
-    }
-    
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    
-    .tasks-section h3 {
-      margin: 0;
-    }
-    
-    .no-tasks {
-      text-align: center;
-      padding: 40px 0;
-      color: #999;
-    }
-    
-    .task-list {
-      margin-top: 20px;
-    }
-    
-    .task-item {
+    .card {
       background: white;
-      border: 1px solid #eee;
       border-radius: 8px;
-      padding: 20px;
-      margin-bottom: 15px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
     
-    .task-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
+    .card-body {
+      padding: 1.5rem;
     }
     
-    .task-header h4 {
-      margin: 0;
-      font-size: 1.1em;
+    :host ::ng-deep .p-datatable .p-datatable-header {
+      background: #f8f9fa;
+      border-bottom: 1px solid #dee2e6;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      padding: 1rem 1.5rem;
     }
     
-    .status {
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-size: 0.8em;
-      font-weight: bold;
+    :host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      font-weight: 600;
     }
     
-    .status-todo {
-      background-color: #ffc107;
-      color: #212529;
+    :host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+      border: 1px solid #dee2e6;
     }
     
-    .status-in_progress {
-      background-color: #17a2b8;
-      color: white;
-    }
-    
-    .status-done {
-      background-color: #28a745;
-      color: white;
-    }
-    
-    .task-description {
-      margin-bottom: 15px;
-      color: #666;
-    }
-    
-    .task-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-top: 1px solid #eee;
-      padding-top: 10px;
-    }
-    
-    .date {
-      font-size: 0.9em;
-      color: #999;
-    }
-    
-    .btn {
-      display: inline-block;
-      font-weight: 400;
-      text-align: center;
-      white-space: nowrap;
-      vertical-align: middle;
-      user-select: none;
-      border: 1px solid transparent;
-      padding: 0.375rem 0.75rem;
-      font-size: 1rem;
-      line-height: 1.5;
-      border-radius: 0.25rem;
-      transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-      cursor: pointer;
-    }
-    
-    .btn:focus {
-      outline: 0;
-      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-    }
-    
-    .btn:disabled {
-      opacity: 0.65;
-      cursor: not-allowed;
-    }
-    
-    .btn-primary {
-      color: #fff;
-      background-color: #007bff;
-      border-color: #007bff;
-    }
-    
-    .btn-primary:hover {
-      color: #fff;
-      background-color: #0069d9;
-      border-color: #0062cc;
+    :host ::ng-deep .p-tag {
+      font-weight: 500;
     }
   `],
   imports: [
     ReactiveFormsModule,
-    NgIf,
-    NgFor,
-    DatePipe
-  ]
+    DatePipe,
+    CommonModule,
+    ButtonModule,
+    CardModule,
+    InputTextModule,
+    TextareaModule,
+    PanelModule,
+    TagModule,
+    TableModule
+  ],
+  providers: [MessageService]
 })
 export class ProfileComponent implements OnInit {
   profileForm: FormGroup;
@@ -294,7 +197,8 @@ export class ProfileComponent implements OnInit {
     private profileService: ProfileService,
     private taskService: TaskService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService
   ) {
     this.profileForm = this.fb.group({
       username: [{ value: '', disabled: true }],
@@ -335,6 +239,11 @@ export class ProfileComponent implements OnInit {
       },
       error: (error: any) => {
         console.error('Error loading profile:', error);
+        this.messageService.add({ 
+          severity: 'error', 
+          summary: 'Error', 
+          detail: 'Failed to load profile' 
+        });
       }
     });
   }
@@ -346,8 +255,26 @@ export class ProfileComponent implements OnInit {
       },
       error: (error: any) => {
         console.error('Error loading tasks:', error);
+        this.messageService.add({ 
+          severity: 'error', 
+          summary: 'Error', 
+          detail: 'Failed to load tasks' 
+        });
       }
     });
+  }
+
+  getSeverity(status: string): string {
+    switch (status.toLowerCase()) {
+      case 'todo':
+        return 'warn';
+      case 'in_progress':
+        return 'info';
+      case 'done':
+        return 'success';
+      default:
+        return 'info';
+    }
   }
 
   onSubmit(): void {
@@ -365,9 +292,19 @@ export class ProfileComponent implements OnInit {
       next: (updatedProfile: Profile) => {
         this.profile = updatedProfile;
         this.profileForm.markAsPristine();
+        this.messageService.add({ 
+          severity: 'success', 
+          summary: 'Success', 
+          detail: 'Profile updated successfully' 
+        });
       },
       error: (error: any) => {
         console.error('Error updating profile:', error);
+        this.messageService.add({ 
+          severity: 'error', 
+          summary: 'Error', 
+          detail: 'Failed to update profile' 
+        });
       }
     });
   }

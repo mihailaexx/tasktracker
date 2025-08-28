@@ -3,247 +3,133 @@ import { Router } from '@angular/router';
 import { Task } from '../../core/models/task.model';
 import { TaskService } from '../../core/services/task.service';
 import { AuthService } from '../../core/services/auth.service';
-import { DatePipe, NgFor, NgIf } from '@angular/common';
+import { DatePipe, CommonModule } from '@angular/common';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { TagModule } from 'primeng/tag';
+import { TableModule } from 'primeng/table';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-task-list',
   template: `
-    <div class="task-list-container">
+    <div class="p-4">
       <div *ngIf="!isAuthenticated; else authenticatedView">
-        <h2>Task List</h2>
-        <p>Please log in to view and manage your tasks.</p>
-        <div class="auth-actions">
-          <button class="btn btn-primary" (click)="navigateToLogin()">Login</button>
-          <button class="btn btn-secondary" (click)="navigateToRegister()">Register</button>
+        <div class="card shadow-lg">
+          <div class="card-body text-center py-12">
+            <i class="pi pi-lock text-6xl text-blue-500 mb-4"></i>
+            <h2 class="text-2xl font-bold mb-2">Task List</h2>
+            <p class="text-gray-600 mb-6">Please log in to view and manage your tasks.</p>
+            <div class="flex justify-center gap-4">
+              <p-button label="Login" icon="pi pi-sign-in" (click)="navigateToLogin()" />
+              <p-button label="Register" icon="pi pi-user-plus" (click)="navigateToRegister()" severity="secondary" />
+            </div>
+          </div>
         </div>
       </div>
       
       <ng-template #authenticatedView>
-        <div class="header">
-          <h2>Tasks</h2>
-          <button class="btn btn-primary" (click)="addTask()">Add Task</button>
+        <div class="mb-6 flex justify-between items-center">
+          <h1 class="text-3xl font-bold text-gray-800">Tasks</h1>
+          <p-button label="Add Task" icon="pi pi-plus" (click)="addTask()" />
         </div>
         
-        <div class="filters">
-          <button class="btn btn-secondary" [class.active]="filter === 'all'" (click)="filterTasks('all')">All</button>
-          <button class="btn btn-secondary" [class.active]="filter === 'todo'" (click)="filterTasks('todo')">To Do</button>
-          <button class="btn btn-secondary" [class.active]="filter === 'in_progress'" (click)="filterTasks('in_progress')">In Progress</button>
-          <button class="btn btn-secondary" [class.active]="filter === 'done'" (click)="filterTasks('done')">Done</button>
-        </div>
-        
-        <div class="task-list">
-          <div class="task-item" *ngFor="let task of filteredTasks">
-            <div class="task-header">
-              <h3>{{ task.title }}</h3>
-              <span class="status" [class]="'status-' + task.status.toLowerCase()">{{ task.status }}</span>
+        <div class="card shadow-lg mb-6">
+          <div class="card-body">
+            <div class="flex flex-wrap gap-2 mb-4">
+              <p-button label="All" [outlined]="filter !== 'all'" (click)="filterTasks('all')" />
+              <p-button label="To Do" [outlined]="filter !== 'todo'" (click)="filterTasks('todo')" severity="warn" />
+              <p-button label="In Progress" [outlined]="filter !== 'in_progress'" (click)="filterTasks('in_progress')" severity="info" />
+              <p-button label="Done" [outlined]="filter !== 'done'" (click)="filterTasks('done')" severity="success" />
             </div>
-            <p class="task-description">{{ task.description }}</p>
-            <div class="task-footer">
-              <span class="date">Updated: {{ task.updatedAt | date:'short' }}</span>
-              <div class="actions">
-                <button class="btn btn-sm btn-outline" (click)="editTask(task.id!)">Edit</button>
-                <button class="btn btn-sm btn-danger" (click)="deleteTask(task.id!)">Delete</button>
-              </div>
-            </div>
-          </div>
-          
-          <div class="no-tasks" *ngIf="filteredTasks.length === 0">
-            <p>No tasks found.</p>
+            
+            <p-table 
+              [value]="filteredTasks" 
+              [paginator]="true" 
+              [rows]="10"
+              responsiveLayout="scroll"
+              styleClass="p-datatable-sm">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Title</th>
+                  <th>Description</th>
+                  <th>Status</th>
+                  <th>Updated</th>
+                  <th>Actions</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-task>
+                <tr>
+                  <td class="font-medium">{{ task.title }}</td>
+                  <td>{{ task.description }}</td>
+                  <td>
+                    <p-tag [severity]="getSeverity(task.status)" [value]="task.status"></p-tag>
+                  </td>
+                  <td>{{ task.updatedAt | date:'short' }}</td>
+                  <td>
+                    <div class="flex gap-2">
+                      <p-button icon="pi pi-pencil" (click)="editTask(task.id!)" styleClass="p-button-sm p-button-outlined" />
+                      <p-button icon="pi pi-trash" (click)="confirmDelete(task)" styleClass="p-button-sm p-button-outlined p-button-danger" />
+                    </div>
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td colspan="5" class="text-center py-4">No tasks found.</td>
+                </tr>
+              </ng-template>
+            </p-table>
           </div>
         </div>
       </ng-template>
     </div>
+    
+    <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
   `,
   styles: [`
-    .task-list-container {
-      padding: 20px 0;
-    }
-    
-    .auth-actions {
-      display: flex;
-      gap: 15px;
-      margin-top: 20px;
-    }
-    
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    
-    .filters {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-    
-    .filters .btn {
-      padding: 8px 16px;
-    }
-    
-    .filters .btn.active {
-      background-color: #007bff;
-      color: white;
-    }
-    
-    .task-item {
+    .card {
       background: white;
-      border: 1px solid #eee;
       border-radius: 8px;
-      padding: 20px;
-      margin-bottom: 15px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
     
-    .task-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
+    .card-body {
+      padding: 1.5rem;
     }
     
-    .task-header h3 {
-      margin: 0;
-      font-size: 1.2em;
+    :host ::ng-deep .p-datatable .p-datatable-header {
+      background: #f8f9fa;
+      border-bottom: 1px solid #dee2e6;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      padding: 1rem 1.5rem;
     }
     
-    .status {
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-size: 0.8em;
-      font-weight: bold;
+    :host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      font-weight: 600;
     }
     
-    .status-todo {
-      background-color: #ffc107;
-      color: #212529;
+    :host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+      border: 1px solid #dee2e6;
     }
     
-    .status-in_progress {
-      background-color: #17a2b8;
-      color: white;
-    }
-    
-    .status-done {
-      background-color: #28a745;
-      color: white;
-    }
-    
-    .task-description {
-      margin-bottom: 15px;
-      color: #666;
-    }
-    
-    .task-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-top: 1px solid #eee;
-      padding-top: 10px;
-    }
-    
-    .date {
-      font-size: 0.9em;
-      color: #999;
-    }
-    
-    .actions {
-      display: flex;
-      gap: 10px;
-    }
-    
-    .btn-sm {
-      padding: 4px 8px;
-      font-size: 0.9em;
-    }
-    
-    .no-tasks {
-      text-align: center;
-      padding: 40px 0;
-      color: #999;
-    }
-    
-    .btn {
-      display: inline-block;
-      font-weight: 400;
-      text-align: center;
-      white-space: nowrap;
-      vertical-align: middle;
-      user-select: none;
-      border: 1px solid transparent;
-      padding: 0.375rem 0.75rem;
-      font-size: 1rem;
-      line-height: 1.5;
-      border-radius: 0.25rem;
-      transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-      cursor: pointer;
-    }
-    
-    .btn:focus {
-      outline: 0;
-      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-    }
-    
-    .btn:disabled {
-      opacity: 0.65;
-      cursor: not-allowed;
-    }
-    
-    .btn-primary {
-      color: #fff;
-      background-color: #007bff;
-      border-color: #007bff;
-    }
-    
-    .btn-primary:hover {
-      color: #fff;
-      background-color: #0069d9;
-      border-color: #0062cc;
-    }
-    
-    .btn-secondary {
-      color: #fff;
-      background-color: #6c757d;
-      border-color: #6c757d;
-    }
-    
-    .btn-secondary:hover {
-      color: #fff;
-      background-color: #5a6268;
-      border-color: #545b62;
-    }
-    
-    .btn-outline {
-      color: #007bff;
-      background-color: transparent;
-      background-image: none;
-      border-color: #007bff;
-    }
-    
-    .btn-outline:hover {
-      color: #fff;
-      background-color: #007bff;
-      border-color: #007bff;
-    }
-    
-    .btn-danger {
-      color: #fff;
-      background-color: #dc3545;
-      border-color: #dc3545;
-    }
-    
-    .btn-danger:hover {
-      color: #fff;
-      background-color: #c82333;
-      border-color: #bd2130;
+    :host ::ng-deep .p-tag {
+      font-weight: 500;
     }
   `],
   imports: [
-    NgIf,
-    NgFor,
-    DatePipe
-  ]
+    CommonModule,
+    DatePipe,
+    ButtonModule,
+    CardModule,
+    TagModule,
+    TableModule,
+    ConfirmDialogModule
+  ],
+  providers: [ConfirmationService, MessageService]
 })
 export class TaskListComponent implements OnInit {
   tasks: Task[] = [];
@@ -254,7 +140,9 @@ export class TaskListComponent implements OnInit {
   constructor(
     private taskService: TaskService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService
   ) { }
 
   ngOnInit(): void {
@@ -280,6 +168,11 @@ export class TaskListComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error loading tasks:', error);
+        this.messageService.add({ 
+          severity: 'error', 
+          summary: 'Error', 
+          detail: 'Failed to load tasks' 
+        });
       }
     });
   }
@@ -299,6 +192,19 @@ export class TaskListComponent implements OnInit {
     }
   }
 
+  getSeverity(status: string): string {
+    switch (status.toLowerCase()) {
+      case 'todo':
+        return 'warn';
+      case 'in_progress':
+        return 'info';
+      case 'done':
+        return 'success';
+      default:
+        return 'info';
+    }
+  }
+
   addTask(): void {
     this.router.navigate(['/tasks/new']);
   }
@@ -307,17 +213,36 @@ export class TaskListComponent implements OnInit {
     this.router.navigate(['/tasks/edit', id]);
   }
 
+  confirmDelete(task: Task): void {
+    this.confirmationService.confirm({
+      message: `Are you sure you want to delete the task "${task.title}"?`,
+      header: 'Confirm Deletion',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.deleteTask(task.id!);
+      }
+    });
+  }
+
   deleteTask(id: number): void {
-    if (confirm('Are you sure you want to delete this task?')) {
-      this.taskService.deleteTask(id).subscribe({
-        next: () => {
-          this.loadTasks(); // Reload the tasks list
-        },
-        error: (error) => {
-          console.error('Error deleting task:', error);
-        }
-      });
-    }
+    this.taskService.deleteTask(id).subscribe({
+      next: () => {
+        this.loadTasks(); // Reload the tasks list
+        this.messageService.add({ 
+          severity: 'success', 
+          summary: 'Success', 
+          detail: 'Task deleted successfully' 
+        });
+      },
+      error: (error) => {
+        console.error('Error deleting task:', error);
+        this.messageService.add({ 
+          severity: 'error', 
+          summary: 'Error', 
+          detail: 'Failed to delete task' 
+        });
+      }
+    });
   }
 
   navigateToLogin(): void {

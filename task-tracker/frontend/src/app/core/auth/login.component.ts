@@ -3,128 +3,100 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router } from '@angular/router';
 import { AuthService, AuthResponse } from '../../core/services/auth.service';
 import { NgIf } from '@angular/common';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { InputTextModule } from 'primeng/inputtext';
+import { PasswordModule } from 'primeng/password';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-login',
   template: `
-    <div class="auth-container">
-      <div class="auth-form">
-        <h2>Login</h2>
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-          <div class="form-group">
-            <label for="username">Username</label>
-            <input 
-              type="text" 
-              id="username" 
-              formControlName="username" 
-              class="form-control"
-              [class.is-invalid]="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
-            <div class="invalid-feedback" *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
-              Username is required
-            </div>
+    <div class="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+      <div class="card shadow-lg w-full max-w-md">
+        <div class="card-body p-8">
+          <div class="text-center mb-8">
+            <i class="pi pi-sign-in text-4xl text-blue-500 mb-3"></i>
+            <h1 class="text-2xl font-bold text-gray-800">Welcome Back</h1>
+            <p class="text-gray-600">Sign in to your account</p>
           </div>
           
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input 
-              type="password" 
-              id="password" 
-              formControlName="password" 
-              class="form-control"
-              [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-            <div class="invalid-feedback" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-              Password is required
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="mb-5">
+              <label for="username" class="block text-gray-700 font-medium mb-2">Username</label>
+              <input 
+                pInputText
+                type="text" 
+                id="username" 
+                formControlName="username" 
+                class="w-full"
+                [class.ng-invalid]="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
+              <small class="text-red-500" *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
+                Username is required
+              </small>
             </div>
-          </div>
+            
+            <div class="mb-6">
+              <label for="password" class="block text-gray-700 font-medium mb-2">Password</label>
+              <p-password 
+                id="password" 
+                formControlName="password" 
+                class="w-full"
+                [class.ng-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+                [feedback]="false"
+                toggleMask="true">
+              </p-password>
+              <small class="text-red-500" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+                Password is required
+              </small>
+            </div>
+            
+            <div class="mb-6">
+              <p-button 
+                type="submit" 
+                label="Sign In" 
+                icon="pi pi-sign-in"
+                class="w-full"
+                [disabled]="loginForm.invalid">
+              </p-button>
+            </div>
+          </form>
           
-          <div class="form-actions">
-            <button 
-              type="submit" 
-              class="btn btn-primary" 
-              [disabled]="loginForm.invalid">
-              Login
-            </button>
+          <div class="text-center border-t border-gray-200 pt-6">
+            <p class="text-gray-600">
+              Don't have an account? 
+              <a class="text-blue-500 hover:underline cursor-pointer font-medium" (click)="navigateToRegister()">
+                Register here
+              </a>
+            </p>
           </div>
-        </form>
-        
-        <div class="auth-footer">
-          <p>Don't have an account? <a (click)="navigateToRegister()">Register</a></p>
         </div>
       </div>
     </div>
   `,
   styles: [`
-    .auth-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 70vh;
-    }
-    
-    .auth-form {
-      width: 100%;
-      max-width: 400px;
-      padding: 30px;
-      border: 1px solid #eee;
+    .card {
+      background: white;
       border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
     
-    .form-group {
-      margin-bottom: 20px;
+    .card-body {
+      padding: 2rem;
     }
     
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
-    
-    .form-control {
+    :host ::ng-deep .p-password input {
       width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 1em;
-    }
-    
-    .form-control:focus {
-      border-color: #007bff;
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
-    }
-    
-    .is-invalid {
-      border-color: #dc3545;
-    }
-    
-    .invalid-feedback {
-      color: #dc3545;
-      font-size: 0.875em;
-      margin-top: 5px;
-    }
-    
-    .form-actions {
-      margin-top: 30px;
-    }
-    
-    .auth-footer {
-      text-align: center;
-      margin-top: 20px;
-      padding-top: 20px;
-      border-top: 1px solid #eee;
-    }
-    
-    .auth-footer a {
-      color: #007bff;
-      cursor: pointer;
-      text-decoration: underline;
     }
   `],
   imports: [
     ReactiveFormsModule,
-    NgIf
-  ]
+    NgIf,
+    ButtonModule,
+    CardModule,
+    InputTextModule,
+    PasswordModule
+  ],
+  providers: [MessageService]
 })
 export class LoginComponent {
   loginForm: FormGroup;
@@ -132,7 +104,8 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService
   ) {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
@@ -153,14 +126,27 @@ export class LoginComponent {
     this.authService.login(credentials).subscribe({
       next: (response: AuthResponse) => {
         if (response.success) {
+          this.messageService.add({ 
+            severity: 'success', 
+            summary: 'Success', 
+            detail: 'Login successful!' 
+          });
           this.router.navigate(['/profile']);
         } else {
-          alert(response.message);
+          this.messageService.add({ 
+            severity: 'error', 
+            summary: 'Error', 
+            detail: response.message 
+          });
         }
       },
       error: (error: any) => {
         console.error('Login error:', error);
-        alert('Login failed. Please try again.');
+        this.messageService.add({ 
+          severity: 'error', 
+          summary: 'Error', 
+          detail: 'Login failed. Please try again.' 
+        });
       }
     });
   }
