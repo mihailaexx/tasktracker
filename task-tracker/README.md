@@ -2,40 +2,6 @@
 
 A full-stack task management application with user authentication, built with Spring Boot, Angular, PostgreSQL, Redis, and Docker.
 
-## Project Structure
-
-```
-task-tracker/
-├── backend/           # Spring Boot application
-│   ├── src/
-│   │   ├── main/
-│   │   │   ├── java/com/example/tasktracker/
-│   │   │   │   ├── config/        # Spring configuration
-│   │   │   │   ├── controller/    # REST controllers
-│   │   │   │   ├── dto/           # Data Transfer Objects
-│   │   │   │   ├── entity/        # JPA entities
-│   │   │   │   ├── exception/     # Custom exceptions
-│   │   │   │   ├── repository/    # Spring Data JPA repositories
-│   │   │   │   ├── service/       # Business logic
-│   │   │   │   └── TaskTrackerApplication.java
-│   │   │   └── resources/
-│   │   │       ├── application.yml   # Configuration
-│   │   │       ├── static/           # Static resources
-│   │   │       └── templates/        # Templates
-│   │   └── test/                     # Unit and integration tests
-│   ├── pom.xml                       # Maven configuration
-│   └── Dockerfile                    # Docker configuration
-│
-├── frontend/          # Angular application
-│   ├── src/           # Angular components and modules
-│   ├── angular.json   # Angular CLI configuration
-│   ├── package.json   # Node.js dependencies
-│   └── Dockerfile     # Docker configuration
-│
-├── docker-compose.yml # Docker Compose configuration
-└── README.md          # This file
-```
-
 ## Features
 
 - User authentication (login/logout) with secure session management
@@ -46,6 +12,10 @@ task-tracker/
 - Containerized deployment with Docker
 - PostgreSQL for data persistence
 - Redis for session management
+- Modern UI with Tailwind CSS v4 and PrimeNG v20 components
+- Responsive design for all device sizes
+- Professional UI components and consistent design language
+- Unified user experience across all application features
 
 ## Prerequisites
 
@@ -83,7 +53,7 @@ cd backend
 
 ### Frontend
 
-The frontend is an Angular application.
+The frontend is an Angular application with Tailwind CSS v4 and PrimeNG v20 components.
 
 To run the frontend locally:
 ```bash
@@ -91,6 +61,19 @@ cd frontend
 npm install
 npm start
 ```
+
+## UI Frameworks
+
+### Tailwind CSS v4
+- Uses the new `@import "tailwindcss";` syntax
+- Configured with `.postcssrc.json` for proper PostCSS integration
+- Includes `@tailwindcss/postcss` package for Angular compatibility
+
+### PrimeNG v20
+- Latest version of the popular Angular UI component library
+- Comprehensive set of accessible and responsive UI components
+- Uses new theme system with `@primeuix/themes` package
+- Component imports follow the new PrimeNG v20 structure
 
 ## API Endpoints
 

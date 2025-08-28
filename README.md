@@ -1,92 +1,142 @@
-# Product Requirements Document (PRD) Guide
+# Task Tracker Monorepo
 
-This repository contains templates and guidelines for creating effective Product Requirements Documents.
+A full-stack task management application with user authentication, built with Spring Boot, Angular, PostgreSQL, Redis, and Docker.
 
-## Files
+## Project Structure
 
-- `PRD.md` - The main PRD template that should be used for all new feature requirements
-- `SAMPLE_PRD.md` - An example PRD for a user authentication feature to demonstrate proper usage
+```
+tasktracker/
+├── README.md                 # This file
+├── QWEN.md                   # Development guidelines
+├── task-tracker/             # Main application
+│   ├── backend/             # Spring Boot application
+│   ├── frontend/             # Angular application
+│   ├── docker-compose.yml    # Docker Compose configuration
+│   └── README.md             # Application documentation
+└── samples/                  # Sample implementations
+```
 
-## Using the PRD Template
-
-When defining a new feature or requirement, follow these steps:
-
-1. Copy the content from `PRD.md` to a new file with a descriptive name (e.g., `PRD_USER_NOTIFICATIONS.md`)
-2. Fill in each section with specific details about your feature
-3. Ensure you've addressed all the checklist items in the "Final validation Checklist"
-4. Have team members review the PRD before implementation begins
-
-## Key Sections to Complete
-
-### Goal
-Clearly define what needs to be built. Be specific about the end state and desired outcomes.
-
-### Why
-Explain the business value and user impact. Describe problems this solves and for whom.
-
-### What
-Detail user-visible behavior and technical requirements. Include success criteria as checkable items.
-
-### All Needed Context
-Provide all necessary documentation, references, and codebase context needed to implement the feature:
-- API documentation
-- Example files
-- Library documentation
-- Existing codebase structure
-- Known gotchas and quirks
-
-### Implementation Blueprint
-Break down the implementation into tasks with specific instructions:
-- Which files to modify/create
-- Patterns to follow
-- Critical implementation details
-
-### Validation Loop
-Define tests and checks to validate the implementation:
-- Syntax and style checks
-- Unit tests
-- Integration tests
-
-## Best Practices
-
-1. **Be Specific**: Avoid vague language. Use concrete examples and clear definitions.
-2. **Think Through Edge Cases**: Consider error states, invalid inputs, and unusual conditions.
-3. **Reference Existing Patterns**: When possible, reuse existing code patterns and architectural decisions.
-4. **Include Security Considerations**: Document any security implications or requirements.
-5. **Consider Performance**: Note any performance requirements or constraints.
-6. **Validate Assumptions**: Check that your assumptions about the codebase are correct.
-
-## Integration with Development Philosophy
-
-This PRD template is designed to align with the project's development philosophy as defined in `QWEN.md`:
-
-- **KISS (Keep It Simple, Stupid)**: Favor simple solutions over complex ones
-- **YAGNI (You Aren't Gonna Need It)**: Implement only what is needed now, not what might be needed later
-- **Design Principles**: Follow dependency inversion, open/closed principle, and single responsibility
-- **Fail Fast**: Check for potential errors early and handle them explicitly
-
-## Getting Started
-
-To create a new PRD:
-
-1. Copy `PRD.md` to a new file
-2. Name it descriptively (e.g., `PRD_[FEATURE_NAME].md`)
-3. Fill in all sections with specific details for your feature
-4. Validate that all checklist items can be completed
-5. Submit for review before beginning implementation
-
-## Technology Stack Updates
-
-The project's technology stack has been updated to the latest stable versions. See [UPDATE_SUMMARY.md](task-tracker/UPDATE_SUMMARY.md) for details on the updates made.
-
-### Current Technology Stack
+## Technology Stack
 
 - **Backend**: Spring Boot 3.5.3 with Java 21
 - **Frontend**: Angular 20.0.0 with Node.js 18.20.0
+- **UI Libraries**: Tailwind CSS v4 and PrimeNG v20
 - **Database**: PostgreSQL 17.6
 - **Cache**: Redis 8-alpine
 - **Web Server**: Nginx 1.29.1
+- **Containerization**: Docker and Docker Compose
 
-## Example
+## Task Tracker Application
 
-See `SAMPLE_PRD.md` for a complete example of how to fill out the PRD template for a user authentication feature.
+The main application is located in the `task-tracker/` directory. It includes:
+
+### Features
+
+- User authentication (login/logout) with secure session management
+- Task management (create, read, update, delete)
+- User profile management
+- Role-based access control
+- RESTful API
+- Containerized deployment with Docker
+- PostgreSQL for data persistence
+- Redis for session management
+- Modern UI with Tailwind CSS v4 and PrimeNG v20 components
+- Responsive design for all device sizes
+- Professional UI components and consistent design language
+
+For detailed information about the application, see [task-tracker/README.md](task-tracker/README.md).
+
+## Development Guidelines
+
+This repository follows specific development guidelines documented in [QWEN.md](QWEN.md). These guidelines cover:
+
+- Core development philosophy (KISS, YAGNI)
+- Code structure and modularity
+- Style and conventions
+- Testing strategy
+- Error handling and logging
+- Security best practices
+
+## Quick Start
+
+1. Clone the repository
+2. Navigate to the task-tracker directory:
+   ```bash
+   cd task-tracker
+   ```
+3. Run the application using Docker Compose:
+   ```bash
+   docker-compose up --build
+   ```
+
+The application will be available at:
+- Frontend: http://localhost
+- Backend API: http://localhost/api/
+- Health check: http://localhost/health
+
+## Frontend Development
+
+The frontend uses Angular with Tailwind CSS v4 and PrimeNG v20 components.
+
+### UI Frameworks
+
+#### Tailwind CSS v4
+- Uses the new `@import "tailwindcss";` syntax
+- Configured with `.postcssrc.json` for proper PostCSS integration
+- Includes `@tailwindcss/postcss` package for Angular compatibility
+
+#### PrimeNG v20
+- Latest version of the popular Angular UI component library
+- Comprehensive set of accessible and responsive UI components
+- Uses new theme system with `@primeuix/themes` package
+- Component imports follow the new PrimeNG v20 structure
+
+### Key Changes for PrimeNG v20 Compatibility
+
+1. **Module Renaming**:
+   - `inputtextarea` → `textarea`
+   - `dropdown` → `select`
+   - `calendar` → `datepicker`
+
+2. **Theme System**:
+   - Uses new `@primeuix/themes` package for consistent styling
+   - Simplified theme configuration
+
+3. **Severity Values**:
+   - Button severity values standardized to: `success`, `info`, `warn`, `danger`, `secondary`, `contrast`
+   - Tag severity values use same standardized values
+
+### Development Setup
+
+To run the frontend locally:
+```bash
+cd task-tracker/frontend
+npm install
+npm start
+```
+
+## Backend Development
+
+The backend uses Spring Boot with Java 21.
+
+To run the backend locally:
+```bash
+cd task-tracker/backend
+./mvnw spring-boot:run
+```
+
+## Samples
+
+Sample implementations demonstrating various features and patterns are available in the `samples/` directory.
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a pull request
+
+## License
+
+This project is licensed under the MIT License.
