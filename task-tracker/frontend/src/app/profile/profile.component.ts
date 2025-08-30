@@ -6,7 +6,7 @@ import { TaskService } from '../core/services/task.service';
 import { Task } from '../core/models/task.model';
 import { AuthService } from '../core/services/auth.service';
 import { Router } from '@angular/router';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
@@ -23,7 +23,6 @@ import { MessageService } from 'primeng/api';
   styleUrls: ['./profile.component.css'],
   imports: [
     ReactiveFormsModule,
-    DatePipe,
     CommonModule,
     ButtonModule,
     CardModule,

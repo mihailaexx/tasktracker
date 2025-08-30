@@ -1,7 +1,6 @@
 # Use Maven 3.9.11 with OpenJDK 21 as the base image
 FROM maven:3.9.11-eclipse-temurin-21 AS builder
 
-ARG VERSION=0.0.2-SNAPSHOT
 
 # Set the working directory
 WORKDIR /app
@@ -18,6 +17,8 @@ RUN mvn package -DskipTests
 
 # Use OpenJDK 21 as the runtime base image
 FROM openjdk:21-jdk-slim
+
+ARG VERSION=0.0.2-SNAPSHOT
 
 # Set the working directory
 WORKDIR /app

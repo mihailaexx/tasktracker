@@ -88,6 +88,19 @@ export class TaskListComponent implements OnInit {
     }
   }
 
+  formatStatusDisplay(status: string): string {
+    switch (status) {
+      case 'TODO':
+        return 'To Do';
+      case 'IN_PROGRESS':
+        return 'In Progress';
+      case 'DONE':
+        return 'Done';
+      default:
+        return status;
+    }
+  }
+
   getSeverity(status: string): string {
     switch (status.toLowerCase()) {
       case 'todo':

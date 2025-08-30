@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {TaskStatus} from '../../core/models/task.model';
 import {TaskService} from '../../core/services/task.service';
 import {AuthService} from '../../core/services/auth.service';
-import {NgIf} from '@angular/common';
+import {NgIf, NgClass} from '@angular/common';
 import {ButtonModule} from 'primeng/button';
 import {CardModule} from 'primeng/card';
 import {InputTextModule} from 'primeng/inputtext';
@@ -20,6 +20,7 @@ import {MessageService} from 'primeng/api';
   imports: [
     ReactiveFormsModule,
     NgIf,
+    NgClass,
     ButtonModule,
     CardModule,
     InputTextModule,

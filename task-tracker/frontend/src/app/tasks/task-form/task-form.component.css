@@ -1,8 +1,269 @@
-.card {
-  background: white;
-  border-radius: 8px;
+/* Task Form Container */
+.task-form-container {
+  padding: 3rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: calc(100vh - 5rem);
 }
 
-.card-body {
-  padding: 1.5rem;
+/* Welcome Section for unauthenticated users */
+.welcome-card {
+  text-align: center;
+  padding: 4rem 3rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.welcome-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.welcome-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 25px;
+  margin-bottom: 2rem;
+  box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);
+}
+
+.welcome-icon i {
+  font-size: 3rem;
+  color: white;
+}
+
+.welcome-description {
+  font-size: 1.125rem;
+  margin-bottom: 3rem;
+  line-height: 1.7;
+  text-align: center;
+  max-width: 500px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.welcome-actions {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Task Form Card */
+.task-form-card {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 3rem;
+}
+
+/* Form Header */
+.form-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.form-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 20px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+}
+
+.form-icon i {
+  font-size: 2rem;
+  color: white;
+}
+
+/* Form Styles */
+.task-form {
+  margin-top: 2rem;
+}
+
+.form-group {
+  margin-bottom: 2rem;
+}
+
+.form-label {
+  display: block;
+  font-weight: 600;
+  color: #4a5568;
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+}
+
+/* Input Overrides */
+
+:host ::ng-deep .form-input {
+  width: 100% !important;
+}
+
+:host ::ng-deep .form-input .p-inputtext,
+:host ::ng-deep .form-input .p-textarea textarea,
+:host ::ng-deep .form-input .p-select {
+  padding: 1rem 1.25rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+:host ::ng-deep .form-input .p-inputtext:focus,
+:host ::ng-deep .form-input .p-textarea textarea:focus,
+:host ::ng-deep .form-input .p-select:focus-within {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  outline: none;
+}
+
+:host ::ng-deep .form-input.error .p-inputtext,
+:host ::ng-deep .form-input.error .p-textarea textarea,
+:host ::ng-deep .form-input.error .p-select {
+  border-color: #e53e3e;
+  box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1);
+}
+
+/* Select dropdown styling */
+:host ::ng-deep .form-input .p-select {
+  display: block;
+}
+
+:host ::ng-deep .form-input .p-select .p-select-label {
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+}
+
+/* Textarea specific styling */
+:host ::ng-deep .form-input .p-textarea textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.error-message {
+  color: #e53e3e;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  display: block;
+}
+
+/* Form Actions */
+.form-actions {
+  margin-top: 3rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+/* Button Styles */
+:host ::ng-deep .welcome-btn-primary .p-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 12px;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s ease;
+}
+
+:host ::ng-deep .welcome-btn-primary .p-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+:host ::ng-deep .welcome-btn-secondary .p-button {
+  background: transparent;
+  border: 2px solid #667eea;
+  color: #667eea;
+  border-radius: 12px;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+:host ::ng-deep .welcome-btn-secondary .p-button:hover {
+  background: #667eea;
+  color: white;
+  transform: translateY(-2px);
+}
+
+:host ::ng-deep .submit-btn .p-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 12px;
+  padding: 0.875rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s ease;
+}
+
+:host ::ng-deep .submit-btn .p-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+:host ::ng-deep .submit-btn .p-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+:host ::ng-deep .cancel-btn .p-button {
+  background: transparent;
+  border: 2px solid #718096;
+  color: #718096;
+  border-radius: 12px;
+  padding: 0.875rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+:host ::ng-deep .cancel-btn .p-button:hover {
+  background: #718096;
+  color: white;
+  transform: translateY(-1px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .task-form-container {
+    padding: 1rem;
+  }
+  
+  .welcome-card {
+    padding: 2.5rem 2rem;
+  }
+  
+  .task-form-card {
+    padding: 2rem 1.5rem;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .welcome-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  :host ::ng-deep .welcome-btn-primary .p-button,
+  :host ::ng-deep .welcome-btn-secondary .p-button,
+  :host ::ng-deep .submit-btn .p-button,
+  :host ::ng-deep .cancel-btn .p-button {
+    width: 100%;
+  }
 }
