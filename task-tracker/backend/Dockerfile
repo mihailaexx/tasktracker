@@ -1,7 +1,6 @@
 # Use Maven 3.9.11 with OpenJDK 21 as the base image
 FROM maven:3.9.11-eclipse-temurin-21 AS builder
 
-
 # Set the working directory
 WORKDIR /app
 

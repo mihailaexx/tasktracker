@@ -70,45 +70,62 @@ This repository follows specific development guidelines documented in [QWEN.md](
    ```
 
 The application will be available at:
+
 - Frontend: http://localhost
 - Backend API: http://localhost/api/
 - Health check: http://localhost/health
+
+## API Endpoints
+
+### Authentication
+
+- `POST /api/auth/login` - User login
+- `POST /api/auth/logout` - User logout
+
+### Tasks
+
+- `GET /api/tasks` - Get all tasks
+- `GET /api/tasks/{id}` - Get a specific task
+- `POST /api/tasks` - Create a new task
+- `PUT /api/tasks/{id}` - Update a task
+- `DELETE /api/tasks/{id}` - Delete a task
+
+### Profile
+
+- `GET /api/profile` - Get user profile
+- `PUT /api/profile` - Update user profile
+
+### Health
+
+- `GET /health` - Health check
 
 ## Frontend Development
 
 The frontend uses Angular with Tailwind CSS v4 and PrimeNG v20 components.
 
+### Prerequisites
+
+- Node.js 18+ (for frontend development)
+
 ### UI Frameworks
 
 #### Tailwind CSS v4
+
 - Uses the new `@import "tailwindcss";` syntax
 - Configured with `.postcssrc.json` for proper PostCSS integration
 - Includes `@tailwindcss/postcss` package for Angular compatibility
 
 #### PrimeNG v20
+
 - Latest version of the popular Angular UI component library
 - Comprehensive set of accessible and responsive UI components
 - Uses new theme system with `@primeuix/themes` package
 - Component imports follow the new PrimeNG v20 structure
 
-### Key Changes for PrimeNG v20 Compatibility
-
-1. **Module Renaming**:
-   - `inputtextarea` → `textarea`
-   - `dropdown` → `select`
-   - `calendar` → `datepicker`
-
-2. **Theme System**:
-   - Uses new `@primeuix/themes` package for consistent styling
-   - Simplified theme configuration
-
-3. **Severity Values**:
-   - Button severity values standardized to: `success`, `info`, `warn`, `danger`, `secondary`, `contrast`
-   - Tag severity values use same standardized values
-
 ### Development Setup
 
 To run the frontend locally:
+
 ```bash
 cd task-tracker/frontend
 npm install
@@ -117,17 +134,56 @@ npm start
 
 ## Backend Development
 
+### Prerequisites
+
+- Java 21 (for local development)
+- Maven 3.9+ (for backend development)
+
 The backend uses Spring Boot with Java 21.
 
 To run the backend locally:
+
 ```bash
 cd task-tracker/backend
 ./mvnw spring-boot:run
 ```
 
-## Samples
+## Testing
 
-Sample implementations demonstrating various features and patterns are available in the `samples/` directory.
+### Backend
+
+Run unit tests:
+
+```bash
+cd backend
+./mvnw test
+```
+
+Run integration tests:
+
+```bash
+cd backend
+./mvnw verify
+```
+
+### Frontend
+
+Run unit tests:
+
+```bash
+cd frontend
+npm test
+```
+
+## Deployment
+
+The application is containerized using Docker and can be deployed using Docker Compose.
+
+To deploy in production mode:
+
+```bash
+docker-compose -f docker-compose.yml up --build
+```
 
 ## Contributing
 

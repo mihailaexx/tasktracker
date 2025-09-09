@@ -1,3 +1,4 @@
-/qwen-custom-commands
 /task-tracker/frontend/node_modules/
 /task-tracker/frontend/.angular
+/.vscode/
+/.playwright-mcp/
