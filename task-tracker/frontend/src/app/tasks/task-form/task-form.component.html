@@ -1,5 +1,5 @@
 <div class="task-form-container">
-  <div *ngIf="!isAuthenticated; else authenticatedView">
+  @if (!isAuthenticated) {
     <div class="welcome-card modern-card">
       <div class="welcome-content">
         <div class="welcome-icon">
@@ -23,9 +23,7 @@
         </div>
       </div>
     </div>
-  </div>
-  
-  <ng-template #authenticatedView>
+  } @else {
     <div class="task-form-card modern-card">
       <div class="form-header">
         <div class="form-icon">
@@ -45,9 +43,11 @@
             formControlName="title" 
             class="form-input"
             [class.error]="taskForm.get('title')?.invalid && taskForm.get('title')?.touched">
-          <small class="error-message" *ngIf="taskForm.get('title')?.invalid && taskForm.get('title')?.touched">
-            Title is required
-          </small>
+          @if (taskForm.get('title')?.invalid && taskForm.get('title')?.touched) {
+            <small class="error-message">
+              Title is required
+            </small>
+          }
         </div>
         
         <div class="form-group">
@@ -72,6 +72,35 @@
             placeholder="Select status">
           </p-select>
         </div>
+
+        <div class="form-group">
+          <label for="tags" class="form-label">Tags</label>
+          <p-multiSelect 
+            [options]="tags" 
+            [(ngModel)]="selectedTags"
+            optionLabel="name" 
+            optionValue="id"
+            placeholder="Select tags"
+            class="form-input"
+            [showToggleAll]="false"
+            [filter]="true"
+            filterBy="name"
+            [ngModelOptions]="{standalone: true}">
+            <ng-template let-tag pTemplate="selectedItem">
+              <div class="selected-tag">
+                <span class="tag-color" [style.background-color]="tag.color"></span>
+                <span>{{ tag.name }}</span>
+              </div>
+            </ng-template>
+            <ng-template let-tag pTemplate="item">
+              <div class="tag-option">
+                <span class="tag-color" [style.background-color]="tag.color"></span>
+                <span>{{ tag.name }}</span>
+              </div>
+            </ng-template>
+          </p-multiSelect>
+          <small class="form-hint">Select tags to organize your task</small>
+        </div>
         
         <div class="form-actions">
           <p-button 
@@ -93,5 +122,5 @@
         </div>
       </form>
     </div>
-  </ng-template>
+  }
 </div>

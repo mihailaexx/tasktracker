@@ -75,6 +75,11 @@ export class AppComponent implements OnInit {
           label: 'Tasks',
           icon: 'pi pi-check-square',
           routerLink: '/tasks'
+        },
+        {
+          label: 'Tags',
+          icon: 'pi pi-tags',
+          routerLink: '/tags'
         }
       ];
     } else {

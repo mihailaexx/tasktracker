@@ -1,5 +1,5 @@
 <div class="profile-container">
-  <div *ngIf="!isAuthenticated; else authenticatedView">
+  @if (!isAuthenticated) {
     <div class="welcome-card modern-card">
       <div class="welcome-content">
         <div class="welcome-icon">
@@ -23,9 +23,7 @@
         </div>
       </div>
     </div>
-  </div>
-  
-  <ng-template #authenticatedView>
+  } @else {
     <div class="profile-header">
       <div class="header-content">
         <h1 class="heading-primary">User Profile</h1>
@@ -81,9 +79,11 @@
                 formControlName="email" 
                 class="form-input"
                 [class.error]="profileForm.get('email')?.invalid && profileForm.get('email')?.touched">
-              <small class="error-message" *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched">
-                Please enter a valid email address
-              </small>
+              @if (profileForm.get('email')?.invalid && profileForm.get('email')?.touched) {
+                <small class="error-message">
+                  Please enter a valid email address
+                </small>
+              }
             </div>
             
             <div class="form-actions">
@@ -99,5 +99,5 @@
         </div>
       </div>
     </div>
-  </ng-template>
+  }
 </div>

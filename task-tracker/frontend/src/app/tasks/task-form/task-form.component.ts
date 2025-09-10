@@ -1,15 +1,18 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TaskStatus} from '../../core/models/task.model';
 import {TaskService} from '../../core/services/task.service';
+import {TagService} from '../../core/services/tag.service';
 import {AuthService} from '../../core/services/auth.service';
+import {Tag} from '../../core/models/tag.model';
 import {NgIf, NgClass} from '@angular/common';
 import {ButtonModule} from 'primeng/button';
 import {CardModule} from 'primeng/card';
 import {InputTextModule} from 'primeng/inputtext';
 import {TextareaModule} from 'primeng/textarea';
 import {SelectModule} from 'primeng/select';
+import {MultiSelectModule} from 'primeng/multiselect';
 import {MessageService} from 'primeng/api';
 
 @Component({
@@ -19,13 +22,15 @@ import {MessageService} from 'primeng/api';
   styleUrls: ['./task-form.component.css'],
   imports: [
     ReactiveFormsModule,
+    FormsModule,
     NgIf,
     NgClass,
     ButtonModule,
     CardModule,
     InputTextModule,
     TextareaModule,
-    SelectModule
+    SelectModule,
+    MultiSelectModule
   ],
   providers: [MessageService]
 })
@@ -34,6 +39,8 @@ export class TaskFormComponent implements OnInit {
   isEditMode = false;
   taskId: number | null = null;
   isAuthenticated = false;
+  tags: Tag[] = [];
+  selectedTags: number[] = [];
 
   statusOptions = [
     {label: 'To Do', value: TaskStatus.TODO},
@@ -44,6 +51,7 @@ export class TaskFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private taskService: TaskService,
+    private tagService: TagService,
     private authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
@@ -52,7 +60,8 @@ export class TaskFormComponent implements OnInit {
     this.taskForm = this.fb.group({
       title: ['', Validators.required],
       description: [''],
-      status: [TaskStatus.TODO]
+      status: [TaskStatus.TODO],
+      tagIds: [[]]
     });
   }
 
@@ -68,6 +77,9 @@ export class TaskFormComponent implements OnInit {
     this.isAuthenticated = this.authService.isAuthenticated();
 
     if (this.isAuthenticated) {
+      // Load tags first
+      this.loadTags();
+      
       const id = this.route.snapshot.paramMap.get('id');
       if (id) {
         this.isEditMode = true;
@@ -77,10 +89,38 @@ export class TaskFormComponent implements OnInit {
     }
   }
 
+  loadTags(): void {
+    this.tagService.getTags().subscribe({
+      next: (tags) => {
+        this.tags = tags;
+      },
+      error: (error) => {
+        console.error('Error loading tags:', error);
+      }
+    });
+  }
+
   loadTask(id: number): void {
     this.taskService.getTask(id).subscribe({
       next: (task) => {
-        this.taskForm.patchValue(task);
+        this.taskForm.patchValue({
+          title: task.title,
+          description: task.description,
+          status: task.status
+        });
+        
+        // Set selected tags if task has tags
+        if (task.tags && task.tags.length > 0) {
+          this.selectedTags = task.tags.map(tag => tag.id).filter(id => id !== undefined);
+          this.taskForm.patchValue({
+            tagIds: this.selectedTags
+          });
+        } else {
+          this.selectedTags = [];
+          this.taskForm.patchValue({
+            tagIds: []
+          });
+        }
       },
       error: (error) => {
         console.error('Error loading task:', error);
@@ -98,7 +138,12 @@ export class TaskFormComponent implements OnInit {
       return;
     }
 
-    const taskData = this.taskForm.value;
+    const taskData = {
+      title: this.taskForm.value.title,
+      description: this.taskForm.value.description,
+      status: this.taskForm.value.status,
+      tagIds: this.selectedTags.filter(id => id !== undefined)
+    };
 
     if (this.isEditMode && this.taskId) {
       this.taskService.updateTask(this.taskId, taskData).subscribe({

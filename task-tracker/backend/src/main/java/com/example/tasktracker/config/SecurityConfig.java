@@ -31,6 +31,8 @@ public class SecurityConfig {
                 .requestMatchers("/h2-console/**").permitAll() // Только для dev профиля
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
+                .requestMatchers("/api/auth/me").authenticated()  // Explicitly allow authenticated users to access /me endpoint
+                .requestMatchers("/api/tags/**").authenticated()  // Explicitly allow authenticated users to access tags endpoints
                 .anyRequest().authenticated()
             )
             
@@ -50,7 +52,7 @@ public class SecurityConfig {
             // CSRF защита
             .csrf(csrf -> csrf
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .ignoringRequestMatchers("/h2-console/**", "/api/auth/register", "/api/auth/login", "/api/auth/logout", "/api/tasks/**") // Exempt auth endpoints and tasks API from CSRF
+                .ignoringRequestMatchers("/h2-console/**", "/api/auth/register", "/api/auth/login", "/api/auth/logout", "/api/tasks/**", "/api/tags/**") // Exempt auth endpoints, tasks API, and tags API from CSRF
             )
             
             // Настройка сессий

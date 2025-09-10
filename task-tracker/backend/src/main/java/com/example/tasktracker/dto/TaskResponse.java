@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.ArrayList;
 
 @Data
 @NoArgsConstructor
@@ -17,4 +19,19 @@ public class TaskResponse {
     private TaskStatus status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    
+    // List of tags associated with the task
+    private List<TagResponse> tags = new ArrayList<>();
+    
+    // Constructor without tags for backward compatibility
+    public TaskResponse(Long id, String title, String description, TaskStatus status, 
+                       LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.status = status;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.tags = new ArrayList<>();
+    }
 }

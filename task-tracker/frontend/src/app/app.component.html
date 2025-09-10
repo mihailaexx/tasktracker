@@ -9,19 +9,20 @@
       </div>
     </ng-template>
     <ng-template #end>
-      <div class="flex items-center" *ngIf="isAuthenticated; else loginLinks">
-        <div class="user-greeting">
-          <span class="welcome-text">Welcome back,</span>
-          <span class="username-text">{{ username }}!</span>
+      @if (isAuthenticated) {
+        <div class="flex items-center">
+          <div class="user-greeting">
+            <span class="welcome-text">Welcome back,</span>
+            <span class="username-text">{{ username }}!</span>
+          </div>
+          <p-button 
+            label="Logout" 
+            icon="pi pi-sign-out" 
+            (click)="logout()" 
+            severity="secondary" 
+            class="logout-btn" />
         </div>
-        <p-button 
-          label="Logout" 
-          icon="pi pi-sign-out" 
-          (click)="logout()" 
-          severity="secondary" 
-          class="logout-btn" />
-      </div>
-      <ng-template #loginLinks>
+      } @else {
         <div class="flex gap-3">
           <p-button 
             label="Login" 
@@ -35,7 +36,7 @@
             routerLink="/register" 
             class="nav-btn-solid" />
         </div>
-      </ng-template>
+      }
     </ng-template>
   </p-menubar>
   

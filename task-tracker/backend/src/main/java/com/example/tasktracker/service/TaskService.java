@@ -1,7 +1,9 @@
 package com.example.tasktracker.service;
 
+import com.example.tasktracker.dto.TagResponse;
 import com.example.tasktracker.dto.TaskRequest;
 import com.example.tasktracker.dto.TaskResponse;
+import com.example.tasktracker.entity.Tag;
 import com.example.tasktracker.entity.Task;
 import com.example.tasktracker.entity.User;
 import com.example.tasktracker.exception.UserNotFoundException;
@@ -21,6 +23,9 @@ public class TaskService {
 
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private TagService tagService;
 
     public List<TaskResponse> getAllTasks(Long userId) {
         User user = userRepository.findById(userId)
@@ -54,6 +59,12 @@ public class TaskService {
         task.setStatus(taskRequest.getStatus());
         task.setUser(user);
         
+        // Handle tags if provided
+        if (taskRequest.getTagIds() != null && !taskRequest.getTagIds().isEmpty()) {
+            List<Tag> tags = tagService.getTagsByIdsAndUser(taskRequest.getTagIds(), userId);
+            task.getTags().addAll(tags);
+        }
+        
         Task savedTask = taskRepository.save(task);
         return convertToResponse(savedTask);
     }
@@ -73,12 +84,19 @@ public class TaskService {
         task.setDescription(taskRequest.getDescription());
         task.setStatus(taskRequest.getStatus());
         
+        // Handle tags update
+        task.clearTags(); // Clear existing tags
+        if (taskRequest.getTagIds() != null && !taskRequest.getTagIds().isEmpty()) {
+            List<Tag> tags = tagService.getTagsByIdsAndUser(taskRequest.getTagIds(), userId);
+            task.getTags().addAll(tags);
+        }
+        
         Task updatedTask = taskRepository.save(task);
         return convertToResponse(updatedTask);
     }
 
     public void deleteTask(Long taskId, Long userId) {
-        User user = userRepository.findById(userId)
+        userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new RuntimeException("Task not found with id: " + taskId));
@@ -99,6 +117,14 @@ public class TaskService {
         response.setStatus(task.getStatus());
         response.setCreatedAt(task.getCreatedAt());
         response.setUpdatedAt(task.getUpdatedAt());
+        
+        // Convert tags to TagResponse objects
+        List<TagResponse> tagResponses = task.getTags().stream()
+                .map(tag -> new TagResponse(tag.getId(), tag.getName(), tag.getColor(), 
+                           tag.getCreatedAt(), tag.getUpdatedAt()))
+                .collect(Collectors.toList());
+        response.setTags(tagResponses);
+        
         return response;
     }
 }

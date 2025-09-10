@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+import java.util.List;
+import java.util.ArrayList;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,4 +19,7 @@ public class TaskRequest {
     private String description;
     
     private TaskStatus status = TaskStatus.TODO;
+    
+    // List of tag IDs to associate with the task
+    private List<Long> tagIds = new ArrayList<>();
 }

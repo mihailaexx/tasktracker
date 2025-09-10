@@ -1,5 +1,5 @@
 <div class="task-list-container">
-  <div *ngIf="!isAuthenticated; else authenticatedView">
+  @if (!isAuthenticated) {
     <div class="welcome-card modern-card">
       <div class="welcome-content">
         <div class="welcome-icon">
@@ -23,9 +23,7 @@
         </div>
       </div>
     </div>
-  </div>
-  
-  <ng-template #authenticatedView>
+  } @else {
     <div class="task-header">
       <h1 class="heading-primary">Tasks</h1>
       <p-button 
@@ -74,6 +72,7 @@
           <tr>
             <th>Title</th>
             <th>Description</th>
+            <th>Tags</th>
             <th>Status</th>
             <th>Updated</th>
             <th>Actions</th>
@@ -83,6 +82,23 @@
           <tr>
             <td class="task-title">{{ task.title }}</td>
             <td class="task-description">{{ task.description }}</td>
+            <td class="task-tags">
+              <div class="tags-container">
+                @if (task.tags && task.tags.length > 0) {
+                  @for (tag of task.tags; track tag.id) {
+                    <span 
+                      class="task-tag" 
+                      [style.background-color]="tag.color + '20'"
+                      [style.color]="tag.color"
+                      [style.border]="'1px solid ' + tag.color">
+                      {{ tag.name }}
+                    </span>
+                  }
+                } @else {
+                  <span class="no-tags">No tags</span>
+                }
+              </div>
+            </td>
             <td>
               <p-tag [severity]="getSeverity(task.status)" [value]="formatStatusDisplay(task.status)" class="task-status"></p-tag>
             </td>
@@ -106,7 +122,7 @@
         </ng-template>
         <ng-template pTemplate="emptymessage">
           <tr>
-            <td colspan="5" class="empty-message">
+            <td colspan="6" class="empty-message">
               <div class="empty-state">
                 <i class="pi pi-inbox empty-icon"></i>
                 <p>No tasks found. Start by creating your first task!</p>
@@ -116,7 +132,7 @@
         </ng-template>
       </p-table>
     </div>
-  </ng-template>
+  }
 </div>
 
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
