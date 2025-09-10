@@ -3,9 +3,11 @@ package com.example.tasktracker.service;
 import com.example.tasktracker.dto.TagRequest;
 import com.example.tasktracker.dto.TagResponse;
 import com.example.tasktracker.entity.Tag;
+import com.example.tasktracker.entity.Task;
 import com.example.tasktracker.entity.User;
 import com.example.tasktracker.exception.UserNotFoundException;
 import com.example.tasktracker.repository.TagRepository;
+import com.example.tasktracker.repository.TaskRepository;
 import com.example.tasktracker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,9 @@ public class TagService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private TaskRepository taskRepository;
 
     /**
      * Get all tags for a user
@@ -82,6 +87,19 @@ public class TagService {
      */
     public void deleteTag(Long tagId, Long userId) {
         Tag tag = getTagByIdAndUser(tagId, userId);
+        
+        // First, remove this tag from all tasks that use it
+        User user = getUserById(userId);
+        List<Task> userTasks = taskRepository.findByUser(user);
+        
+        for (Task task : userTasks) {
+            if (task.getTags().contains(tag)) {
+                task.removeTag(tag);
+                taskRepository.save(task);
+            }
+        }
+        
+        // Now delete the tag
         tagRepository.delete(tag);
     }
 

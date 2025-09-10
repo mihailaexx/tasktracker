@@ -52,7 +52,7 @@ public class SecurityConfig {
             // CSRF защита
             .csrf(csrf -> csrf
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .ignoringRequestMatchers("/h2-console/**", "/api/auth/register", "/api/auth/login", "/api/auth/logout", "/api/tasks/**", "/api/tags/**") // Exempt auth endpoints, tasks API, and tags API from CSRF
+                .ignoringRequestMatchers("/h2-console/**", "/api/auth/register", "/api/auth/login", "/api/auth/logout", "/api/tasks/**", "/api/tags/**", "/api/profile/**") // Exempt auth endpoints, tasks API, tags API, and profile API from CSRF
             )
             
             // Настройка сессий
