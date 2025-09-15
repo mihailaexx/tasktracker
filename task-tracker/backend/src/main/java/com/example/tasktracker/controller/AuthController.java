@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -70,6 +71,7 @@ public class AuthController {
         if (auth != null) {
             logger.info("Logout for user: {}", auth.getName());
             new SecurityContextLogoutHandler().logout(request, response, auth);
+            SecurityContextHolder.clearContext();
         }
         
         return ResponseEntity.ok(new AuthResponse(true, "Logout successful", null, null));
@@ -85,11 +87,5 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(new AuthResponse(false, "User not authenticated", null, null));
         }
-    }
-    
-    @GetMapping("/csrf")
-    public ResponseEntity<String> getCsrfToken() {
-        // This endpoint will cause Spring Security to set the CSRF token cookie
-        return ResponseEntity.ok("CSRF token cookie should be set");
     }
 }

@@ -7,6 +7,7 @@ import com.example.tasktracker.service.ProfileService;
 import com.example.tasktracker.repository.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -45,8 +46,15 @@ public class ProfileController {
 
     @PutMapping
     public ResponseEntity<ProfileResponse> updateProfile(@Valid @RequestBody ProfileRequest profileRequest) {
-        Long userId = getCurrentUserId();
-        ProfileResponse updatedProfile = profileService.updateProfile(profileRequest, userId);
-        return ResponseEntity.ok(updatedProfile);
+        try {
+            Long userId = getCurrentUserId();
+            ProfileResponse updatedProfile = profileService.updateProfile(profileRequest, userId);
+            return ResponseEntity.ok(updatedProfile);
+        } catch (IllegalArgumentException e) {
+            // Handle email uniqueness constraint or other validation errors
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

@@ -14,7 +14,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -26,13 +25,12 @@ public class SecurityConfig {
         http
             // Настройка авторизации
             .authorizeHttpRequests(authz -> authz
-                .requestMatchers("/api/auth/login", "/api/auth/register", "/api/auth/logout", "/api/csrf").permitAll()
+                .requestMatchers("/api/auth/login", "/api/auth/register", "/api/auth/logout").permitAll()
                 .requestMatchers("/health", "/actuator/health").permitAll()
                 .requestMatchers("/h2-console/**").permitAll() // Только для dev профиля
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
-                .requestMatchers("/api/auth/me").authenticated()  // Explicitly allow authenticated users to access /me endpoint
-                .requestMatchers("/api/tags/**").authenticated()  // Explicitly allow authenticated users to access tags endpoints
+                .requestMatchers("/api/auth/me", "/api/tasks/**", "/api/tags/**", "/api/profile/**").authenticated()  // Require authentication for protected endpoints
                 .anyRequest().authenticated()
             )
             
@@ -42,17 +40,15 @@ public class SecurityConfig {
             // Настройка logout
             .logout(logout -> logout
                 .logoutUrl("/api/auth/logout")
-                .logoutSuccessUrl("/api/auth/login")
+                .logoutSuccessHandler((request, response, authentication) -> {
+                    response.setStatus(200);
+                    response.setContentType("application/json");
+                    response.getWriter().write("{\"success\":true,\"message\":\"Logout successful\",\"token\":null,\"username\":null}");
+                })
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID", "remember-me")
                 .clearAuthentication(true)
                 .permitAll()
-            )
-            
-            // CSRF защита
-            .csrf(csrf -> csrf
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .ignoringRequestMatchers("/h2-console/**", "/api/auth/register", "/api/auth/login", "/api/auth/logout", "/api/tasks/**", "/api/tags/**", "/api/profile/**") // Exempt auth endpoints, tasks API, tags API, and profile API from CSRF
             )
             
             // Настройка сессий
@@ -79,7 +75,9 @@ public class SecurityConfig {
                 .rememberMeCookieName("remember-me")
                 .alwaysRemember(false)
             );
-            
+        
+        http.csrf(AbstractHttpConfigurer::disable);
+
         return http.build();
     }
 
@@ -93,18 +91,18 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider(CustomUserDetailsService userDetailsService) {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(passwordEncoder());
-        authProvider.setHideUserNotFoundExceptions(false);
-        return authProvider;
-    }
+    // @Bean
+    // public DaoAuthenticationProvider authenticationProvider(CustomUserDetailsService userDetailsService) {
+    //     DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+    //     authProvider.setUserDetailsService(userDetailsService);
+    //     authProvider.setPasswordEncoder(passwordEncoder());
+    //     authProvider.setHideUserNotFoundExceptions(false);
+    //     return authProvider;
+    // }
 
     @Bean
     public org.springframework.session.security.web.authentication.SpringSessionRememberMeServices springSessionRememberMeServices() {
-        org.springframework.session.security.web.authentication.SpringSessionRememberMeServices rememberMeServices = 
+        org.springframework.session.security.web.authentication.SpringSessionRememberMeServices rememberMeServices =
             new org.springframework.session.security.web.authentication.SpringSessionRememberMeServices();
         rememberMeServices.setAlwaysRemember(false);
         rememberMeServices.setRememberMeParameterName("remember-me");

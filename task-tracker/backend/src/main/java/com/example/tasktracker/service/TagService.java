@@ -10,6 +10,7 @@ import com.example.tasktracker.repository.TagRepository;
 import com.example.tasktracker.repository.TaskRepository;
 import com.example.tasktracker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,13 +52,18 @@ public class TagService {
             throw new IllegalArgumentException("Tag with name '" + tagRequest.getName() + "' already exists");
         }
 
-        Tag tag = new Tag();
-        tag.setName(tagRequest.getName().trim());
-        tag.setColor(tagRequest.getColor() != null ? tagRequest.getColor() : "#3B82F6");
-        tag.setUser(user);
+        try {
+            Tag tag = new Tag();
+            tag.setName(tagRequest.getName().trim());
+            tag.setColor(tagRequest.getColor() != null ? tagRequest.getColor() : "#3B82F6");
+            tag.setUser(user);
 
-        Tag savedTag = tagRepository.save(tag);
-        return convertToResponse(savedTag);
+            Tag savedTag = tagRepository.save(tag);
+            return convertToResponse(savedTag);
+        } catch (DataIntegrityViolationException e) {
+            // Fallback for race condition - handle constraint violation
+            throw new IllegalArgumentException("Tag with name '" + tagRequest.getName() + "' already exists");
+        }
     }
 
     /**
@@ -73,13 +79,18 @@ public class TagService {
             }
         }
 
-        tag.setName(tagRequest.getName().trim());
-        if (tagRequest.getColor() != null) {
-            tag.setColor(tagRequest.getColor());
-        }
+        try {
+            tag.setName(tagRequest.getName().trim());
+            if (tagRequest.getColor() != null) {
+                tag.setColor(tagRequest.getColor());
+            }
 
-        Tag updatedTag = tagRepository.save(tag);
-        return convertToResponse(updatedTag);
+            Tag updatedTag = tagRepository.save(tag);
+            return convertToResponse(updatedTag);
+        } catch (DataIntegrityViolationException e) {
+            // Fallback for race condition - handle constraint violation
+            throw new IllegalArgumentException("Tag with name '" + tagRequest.getName() + "' already exists");
+        }
     }
 
     /**

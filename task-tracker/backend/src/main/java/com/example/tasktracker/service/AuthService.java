@@ -7,6 +7,7 @@ import com.example.tasktracker.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -72,11 +73,6 @@ public class AuthService {
 
     public AuthResponse registerUser(String username, String password, String email) {
         try {
-            // Проверка существования пользователя
-            if (userRepository.findByUsername(username).isPresent()) {
-                return new AuthResponse(false, "Username already exists", null, null);
-            }
-
             // Валидация пароля
             if (password.length() < 8) {
                 return new AuthResponse(false, "Password must be at least 8 characters long", null, null);
@@ -96,6 +92,16 @@ public class AuthService {
 
             return new AuthResponse(true, "User registered successfully", null, username);
             
+        } catch (DataIntegrityViolationException e) {
+            // Handle unique constraint violations (username or email already exists)
+            String errorMessage = e.getMessage().toLowerCase();
+            if (errorMessage.contains("username")) {
+                return new AuthResponse(false, "Username already exists", null, null);
+            } else if (errorMessage.contains("email")) {
+                return new AuthResponse(false, "Email already exists", null, null);
+            } else {
+                return new AuthResponse(false, "User with these credentials already exists", null, null);
+            }
         } catch (Exception e) {
             return new AuthResponse(false, "Registration failed", null, null);
         }

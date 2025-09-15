@@ -8,6 +8,7 @@ import com.example.tasktracker.exception.UserNotFoundException;
 import com.example.tasktracker.repository.ProfileRepository;
 import com.example.tasktracker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -36,14 +37,19 @@ public class ProfileService {
         Profile profile = profileRepository.findByUser(user)
                 .orElse(new Profile());
         
-        // Update profile fields
-        profile.setFirstName(profileRequest.getFirstName());
-        profile.setLastName(profileRequest.getLastName());
-        profile.setEmail(profileRequest.getEmail());
-        profile.setUser(user);
-        
-        Profile savedProfile = profileRepository.save(profile);
-        return convertToResponse(savedProfile, user);
+        try {
+            // Update profile fields
+            profile.setFirstName(profileRequest.getFirstName());
+            profile.setLastName(profileRequest.getLastName());
+            profile.setEmail(profileRequest.getEmail());
+            profile.setUser(user);
+            
+            Profile savedProfile = profileRepository.save(profile);
+            return convertToResponse(savedProfile, user);
+        } catch (DataIntegrityViolationException e) {
+            // Handle email uniqueness constraint violation
+            throw new IllegalArgumentException("Email already exists");
+        }
     }
 
     private ProfileResponse convertToResponse(Profile profile, User user) {
