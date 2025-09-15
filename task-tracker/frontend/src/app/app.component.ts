@@ -35,9 +35,6 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Fetch CSRF token on app initialization
-    this.fetchCsrfToken();
-    
     // Subscribe to authentication status changes
     this.authService.isAuthenticated$.subscribe(
       isAuthenticated => {
@@ -91,18 +88,6 @@ export class AppComponent implements OnInit {
         }
       ];
     }
-  }
-
-  fetchCsrfToken(): void {
-    // Make a request to the CSRF endpoint to ensure the token cookie is set
-    this.http.get('/api/csrf', { responseType: 'text' }).subscribe({
-      next: () => {
-        console.log('CSRF token fetched successfully');
-      },
-      error: (error) => {
-        console.error('Error fetching CSRF token:', error);
-      }
-    });
   }
 
   logout(): void {

@@ -26,19 +26,7 @@ export class AuthService {
     this.checkAuthStatus();
   }
 
-  // Method to ensure we have a CSRF token before registration
-  private ensureCsrfToken(): Observable<any> {
-    // Make a GET request to get the CSRF token in a cookie
-    return this.http.get(`${this.apiUrl}/csrf`, { responseType: 'text' }).pipe(
-      catchError(() => {
-        // If the CSRF endpoint doesn't exist, just continue
-        return of(null);
-      })
-    );
-  }
-
   register(userData: { username: string, password: string, email: string }): Observable<AuthResponse> {
-    // For registration, we might need to ensure we have a CSRF token
     return this.http.post<AuthResponse>(`${this.apiUrl}/register`, userData);
   }
 

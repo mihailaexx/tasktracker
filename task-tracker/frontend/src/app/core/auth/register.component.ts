@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AuthResponse, AuthService} from '../services/auth.service';
-import {NgIf} from '@angular/common';
 import {ButtonModule} from 'primeng/button';
 import {CardModule} from 'primeng/card';
 import {InputTextModule} from 'primeng/inputtext';
@@ -16,7 +15,6 @@ import {MessageService} from 'primeng/api';
   styleUrls: ['./register.component.css'],
   imports: [
     ReactiveFormsModule,
-    NgIf,
     ButtonModule,
     CardModule,
     InputTextModule,
