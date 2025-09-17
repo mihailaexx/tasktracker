@@ -49,8 +49,8 @@ class TagControllerTest extends BaseIntegrationTest {
         
         // Create test users
         testUser = new User();
-        testUser.setUsername("mihailaexuser3");
-        testUser.setEmail("mihailaexuser3@gmail.com");
+        testUser.setUsername("mihailaexuser");
+        testUser.setEmail("mihailaexuser@gmail.com");
         testUser.setPassword(passwordEncoder.encode("pRH8F8cu@FYhRqG"));
         testUser = userRepository.save(testUser);
 

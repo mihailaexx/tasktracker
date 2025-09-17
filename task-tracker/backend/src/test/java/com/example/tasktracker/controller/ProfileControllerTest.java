@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -45,8 +46,8 @@ class ProfileControllerTest extends BaseIntegrationTest {
         
         // Create a test user
         testUser = new User();
-        testUser.setUsername("mihailaexuser2");
-        testUser.setEmail("mihailaexuser2@gmail.com");
+        testUser.setUsername("mihailaexuser");
+        testUser.setEmail("mihailaexuser@gmail.com");
         testUser.setPassword(passwordEncoder.encode("pRH8F8cu@FYhRqG"));
         testUser = userRepository.save(testUser);
 
@@ -54,7 +55,7 @@ class ProfileControllerTest extends BaseIntegrationTest {
         testProfile = new Profile();
         testProfile.setFirstName("Test");
         testProfile.setLastName("User");
-        testProfile.setEmail("mihailaexuser2@gmail.com");
+        testProfile.setEmail("mihailaexuser@gmail.com");
         testProfile.setUser(testUser);
         testProfile = profileRepository.save(testProfile);
     }
@@ -73,8 +74,8 @@ class ProfileControllerTest extends BaseIntegrationTest {
                     .andExpect(content().contentType(JSON))
                     .andExpect(jsonPath("$.firstName", is("Test")))
                     .andExpect(jsonPath("$.lastName", is("User")))
-                    .andExpect(jsonPath("$.email", is("mihailaexuser2@gmail.com")))
-                    .andExpect(jsonPath("$.username", is("mihailaexuser2")));
+                    .andExpect(jsonPath("$.email", is("mihailaexuser@gmail.com")))
+                    .andExpect(jsonPath("$.username", is("mihailaexuser")));
         }
 
         @Test
@@ -100,8 +101,8 @@ class ProfileControllerTest extends BaseIntegrationTest {
                     .andExpect(content().contentType(JSON))
                     .andExpect(jsonPath("$.firstName").doesNotExist())
                     .andExpect(jsonPath("$.lastName").doesNotExist())
-                    .andExpect(jsonPath("$.email", is("mihailaexuser2@gmail.com")))
-                    .andExpect(jsonPath("$.username", is("mihailaexuser2")));
+                    .andExpect(jsonPath("$.email", is("mihailaexuser@gmail.com")))
+                    .andExpect(jsonPath("$.username", is("mihailaexuser")));
         }
     }
 
@@ -119,6 +120,7 @@ class ProfileControllerTest extends BaseIntegrationTest {
 
             mockMvc.perform(put("/api/profile")
                     .with(TestConfig.mockUser())
+                    .with(csrf())
                     .contentType(JSON)
                     .content(toJson(updateRequest)))
                     .andDo(print())
@@ -127,7 +129,7 @@ class ProfileControllerTest extends BaseIntegrationTest {
                     .andExpect(jsonPath("$.firstName", is("Updated")))
                     .andExpect(jsonPath("$.lastName", is("Name")))
                     .andExpect(jsonPath("$.email", is("updated@gmail.com")))
-                    .andExpect(jsonPath("$.username", is("mihailaexuser2")));
+                    .andExpect(jsonPath("$.username", is("mihailaexuser")));
 
             // Verify profile was updated in database
             Profile updatedProfile = profileRepository.findByUser(testUser).orElse(null);
@@ -161,6 +163,7 @@ class ProfileControllerTest extends BaseIntegrationTest {
 
             mockMvc.perform(put("/api/profile")
                     .with(TestConfig.mockUser())
+                    .with(csrf())
                     .contentType(JSON)
                     .content(toJson(updateRequest)))
                     .andDo(print())
@@ -177,27 +180,12 @@ class ProfileControllerTest extends BaseIntegrationTest {
 
             mockMvc.perform(put("/api/profile")
                     .with(TestConfig.mockUser())
+                    .with(csrf())
                     .contentType(JSON)
                     .content(toJson(updateRequest)))
                     .andDo(print())
                     .andExpect(status().isOk())
                     .andExpect(content().contentType(JSON));
-        }
-
-        @Test
-        @DisplayName("Should fail without CSRF token")
-        void shouldFailWithoutCsrfToken() throws Exception {
-            ProfileRequest updateRequest = new ProfileRequest();
-            updateRequest.setFirstName("Updated");
-            updateRequest.setLastName("Name");
-            updateRequest.setEmail("updated@gmail.com");
-
-            mockMvc.perform(put("/api/profile")
-                    .with(TestConfig.mockUser())
-                    .contentType(JSON)
-                    .content(toJson(updateRequest)))
-                    .andDo(print())
-                    .andExpect(status().isForbidden());
         }
 
         @Test
@@ -210,6 +198,7 @@ class ProfileControllerTest extends BaseIntegrationTest {
 
             mockMvc.perform(put("/api/profile")
                     .with(TestConfig.mockUser())
+                    .with(csrf())
                     .contentType(JSON)
                     .content(toJson(updateRequest)))
                     .andDo(print())

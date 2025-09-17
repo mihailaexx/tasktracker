@@ -7,6 +7,7 @@ import com.example.tasktracker.entity.Tag;
 import com.example.tasktracker.entity.Task;
 import com.example.tasktracker.entity.User;
 import com.example.tasktracker.exception.UserNotFoundException;
+import com.example.tasktracker.exception.TaskNotFoundException;
 import com.example.tasktracker.repository.TaskRepository;
 import com.example.tasktracker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +37,10 @@ public class TaskService {
     }
 
     public TaskResponse getTaskById(Long taskId, Long userId) {
-        User user = userRepository.findById(userId)
+        userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
         Task task = taskRepository.findById(taskId)
-                .orElseThrow(() -> new RuntimeException("Task not found with id: " + taskId));
+                .orElseThrow(() -> new TaskNotFoundException("Task not found with id: " + taskId));
         
         // Ensure the task belongs to the user
         if (!task.getUser().getId().equals(userId)) {
@@ -70,10 +71,10 @@ public class TaskService {
     }
 
     public TaskResponse updateTask(Long taskId, TaskRequest taskRequest, Long userId) {
-        User user = userRepository.findById(userId)
+        userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
         Task task = taskRepository.findById(taskId)
-                .orElseThrow(() -> new RuntimeException("Task not found with id: " + taskId));
+                .orElseThrow(() -> new TaskNotFoundException("Task not found with id: " + taskId));
         
         // Ensure the task belongs to the user
         if (!task.getUser().getId().equals(userId)) {
@@ -99,7 +100,7 @@ public class TaskService {
         userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
         Task task = taskRepository.findById(taskId)
-                .orElseThrow(() -> new RuntimeException("Task not found with id: " + taskId));
+                .orElseThrow(() -> new TaskNotFoundException("Task not found with id: " + taskId));
         
         // Ensure the task belongs to the user
         if (!task.getUser().getId().equals(userId)) {

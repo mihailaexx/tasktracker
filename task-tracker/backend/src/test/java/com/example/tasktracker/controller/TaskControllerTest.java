@@ -60,8 +60,8 @@ class TaskControllerTest extends BaseIntegrationTest {
         
         // Create test users
         testUser = new User();
-        testUser.setUsername("mihailaexuser4");
-        testUser.setEmail("mihailaexuser4@gmail.com");
+        testUser.setUsername("mihailaexuser");
+        testUser.setEmail("mihailaexuser@gmail.com");
         testUser.setPassword(passwordEncoder.encode("pRH8F8cu@FYhRqG"));
         testUser = userRepository.save(testUser);
 
