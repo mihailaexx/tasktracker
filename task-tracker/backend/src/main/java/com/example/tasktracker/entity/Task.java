@@ -2,6 +2,7 @@ package com.example.tasktracker.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -22,7 +23,9 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "Title is required")
+    @Size(min = 4, max = 100, message = "Title name must be between 4 and 100 characters")
+    @Column(nullable = false, length = 100)
     private String title;
 
     private String description;
@@ -36,12 +39,10 @@ public class Task {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    // Foreign key to User entity
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    // Many-to-Many relationship with Tags
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
         name = "task_tags",
@@ -50,7 +51,6 @@ public class Task {
     )
     private Set<Tag> tags = new HashSet<>();
 
-    // Helper methods for tag management
     public void addTag(Tag tag) {
         this.tags.add(tag);
     }

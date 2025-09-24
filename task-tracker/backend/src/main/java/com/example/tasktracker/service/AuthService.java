@@ -31,6 +31,9 @@ public class AuthService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    /**
+     * User authentication
+     */
     public AuthResponse authenticate(LoginRequest loginRequest, HttpServletRequest request) {
         try {
             // Создание токена аутентификации
@@ -71,6 +74,9 @@ public class AuthService {
         }
     }
 
+    /**
+     * User registration
+     */
     public AuthResponse registerUser(String username, String password, String email) {
         try {
             // Валидация пароля

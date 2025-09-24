@@ -28,6 +28,9 @@ public class TaskService {
     @Autowired
     private TagService tagService;
 
+    /**
+     * Get all tasks for a specific user
+     */
     public List<TaskResponse> getAllTasks(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
@@ -36,6 +39,9 @@ public class TaskService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Get a task by ID for a specific user
+     */
     public TaskResponse getTaskById(Long taskId, Long userId) {
         userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
@@ -50,6 +56,9 @@ public class TaskService {
         return convertToResponse(task);
     }
 
+    /**
+     * Create a new task for a specific user
+     */
     public TaskResponse createTask(TaskRequest taskRequest, Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
@@ -70,6 +79,9 @@ public class TaskService {
         return convertToResponse(savedTask);
     }
 
+    /**
+     * Update a task by ID for a specific user
+     */
     public TaskResponse updateTask(Long taskId, TaskRequest taskRequest, Long userId) {
         userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
@@ -96,6 +108,9 @@ public class TaskService {
         return convertToResponse(updatedTask);
     }
 
+    /**
+     * Delete a task by ID for a specific user
+     */
     public void deleteTask(Long taskId, Long userId) {
         userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
@@ -109,6 +124,8 @@ public class TaskService {
         
         taskRepository.delete(task);
     }
+
+    // Helper methods
 
     private TaskResponse convertToResponse(Task task) {
         TaskResponse response = new TaskResponse();

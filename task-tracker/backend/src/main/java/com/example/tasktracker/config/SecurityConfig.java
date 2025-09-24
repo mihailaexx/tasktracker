@@ -13,6 +13,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -22,7 +25,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            // Настройка авторизации
+            // Authentication configuration
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/api/auth/login", "/api/auth/register", "/api/auth/logout").permitAll()
                 .requestMatchers("/health", "/actuator/health").permitAll()
@@ -33,7 +36,7 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
             )
             
-            // Отключение формы логина по умолчанию
+            // Disable default login form
             .formLogin(AbstractHttpConfigurer::disable)
             
             // Configure exception handling to return 401 instead of 403 for unauthenticated requests
@@ -44,8 +47,8 @@ public class SecurityConfig {
                     response.getWriter().write("{\"error\":\"Unauthorized\",\"message\":\"Authentication required\"}");
                 })
             )
-            
-            // Настройка logout
+
+            // Logout configuration
             .logout(logout -> logout
                 .logoutUrl("/api/auth/logout")
                 .logoutSuccessHandler((request, response, authentication) -> {
@@ -59,7 +62,7 @@ public class SecurityConfig {
                 .permitAll()
             )
             
-            // Настройка сессий
+            // Session configuration
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .maximumSessions(1)
@@ -68,16 +71,17 @@ public class SecurityConfig {
             );
 
         http
+            // Session fixation protection
             .sessionManagement(session -> session
                 .sessionFixation().changeSessionId()
             );
 
         http
-            // Remember Me - актуальная версия
+            // Remember Me configuration
             .rememberMe(rememberMe -> rememberMe
                 .rememberMeServices(springSessionRememberMeServices())
-                .key("uniqueAndSecret") // Уникальный ключ для подписи токенов
-                .tokenValiditySeconds(86400) // 24 часа
+                .key("Mjh4nbdf3mbk2jnMWIJnm@f")
+                .tokenValiditySeconds(86400)
                 .userDetailsService(customUserDetailsService())
                 .rememberMeParameter("remember-me")
                 .rememberMeCookieName("remember-me")
@@ -91,7 +95,7 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(12); // Увеличенная стойкость
+        return new BCryptPasswordEncoder(12);
     }
 
     @Bean
@@ -99,28 +103,19 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
-    // @Bean
-    // public DaoAuthenticationProvider authenticationProvider(CustomUserDetailsService userDetailsService) {
-    //     DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-    //     authProvider.setUserDetailsService(userDetailsService);
-    //     authProvider.setPasswordEncoder(passwordEncoder());
-    //     authProvider.setHideUserNotFoundExceptions(false);
-    //     return authProvider;
-    // }
-
     @Bean
-    public org.springframework.session.security.web.authentication.SpringSessionRememberMeServices springSessionRememberMeServices() {
-        org.springframework.session.security.web.authentication.SpringSessionRememberMeServices rememberMeServices =
-            new org.springframework.session.security.web.authentication.SpringSessionRememberMeServices();
+    public SpringSessionRememberMeServices springSessionRememberMeServices() {
+        SpringSessionRememberMeServices rememberMeServices =
+            new SpringSessionRememberMeServices();
         rememberMeServices.setAlwaysRemember(false);
         rememberMeServices.setRememberMeParameterName("remember-me");
-        rememberMeServices.setValiditySeconds(86400); // 24 часа
+        rememberMeServices.setValiditySeconds(86400);
         return rememberMeServices;
     }
 
     @Bean
-    public org.springframework.security.core.session.SessionRegistry sessionRegistry() {
-        return new org.springframework.security.core.session.SessionRegistryImpl();
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
     }
 
     @Bean

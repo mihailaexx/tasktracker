@@ -7,8 +7,6 @@ import com.example.tasktracker.service.ProfileService;
 import com.example.tasktracker.repository.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,6 +22,9 @@ public class ProfileController {
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * Get current user ID from security context
+     */
     private Long getCurrentUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
@@ -37,24 +38,21 @@ public class ProfileController {
         throw new RuntimeException("Unable to get current user ID");
     }
 
+    /**
+     * Get profile for the current user
+     */
     @GetMapping
-    public ResponseEntity<ProfileResponse> getProfile() {
+    public ProfileResponse getProfile() {
         Long userId = getCurrentUserId();
-        ProfileResponse profile = profileService.getProfile(userId);
-        return ResponseEntity.ok(profile);
+        return profileService.getProfile(userId);
     }
 
+    /**
+     * Update profile for the current user
+     */
     @PutMapping
-    public ResponseEntity<ProfileResponse> updateProfile(@Valid @RequestBody ProfileRequest profileRequest) {
-        try {
-            Long userId = getCurrentUserId();
-            ProfileResponse updatedProfile = profileService.updateProfile(profileRequest, userId);
-            return ResponseEntity.ok(updatedProfile);
-        } catch (IllegalArgumentException e) {
-            // Handle email uniqueness constraint or other validation errors
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    public ProfileResponse updateProfile(@Valid @RequestBody ProfileRequest profileRequest) {
+        Long userId = getCurrentUserId();
+        return profileService.updateProfile(profileRequest, userId);
     }
 }

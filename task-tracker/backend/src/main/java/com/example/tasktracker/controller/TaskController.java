@@ -8,7 +8,6 @@ import com.example.tasktracker.repository.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,6 +25,9 @@ public class TaskController {
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * Get current user ID from security context
+     */
     private Long getCurrentUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
@@ -39,38 +41,50 @@ public class TaskController {
         throw new RuntimeException("Unable to get current user ID");
     }
 
+    /**
+     * Get all tasks for the current user
+     */
     @GetMapping
-    public ResponseEntity<List<TaskResponse>> getAllTasks() {
+    public List<TaskResponse> getAllTasks() {
         Long userId = getCurrentUserId();
-        List<TaskResponse> tasks = taskService.getAllTasks(userId);
-        return ResponseEntity.ok(tasks);
+        return taskService.getAllTasks(userId);
     }
 
+    /**
+     * Get a specific task by ID for the current user
+     */
     @GetMapping("/{id}")
-    public ResponseEntity<TaskResponse> getTaskById(@PathVariable Long id) {
+    public TaskResponse getTaskById(@PathVariable Long id) {
         Long userId = getCurrentUserId();
-        TaskResponse task = taskService.getTaskById(id, userId);
-        return ResponseEntity.ok(task);
+        return taskService.getTaskById(id, userId);
     }
 
+    /**
+     * Create a new task for the current user
+     */
     @PostMapping
-    public ResponseEntity<TaskResponse> createTask(@Valid @RequestBody TaskRequest taskRequest) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public TaskResponse createTask(@Valid @RequestBody TaskRequest taskRequest) {
         Long userId = getCurrentUserId();
-        TaskResponse createdTask = taskService.createTask(taskRequest, userId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdTask);
+        return taskService.createTask(taskRequest, userId);
     }
 
+    /**
+     * Update an existing task for the current user
+     */
     @PutMapping("/{id}")
-    public ResponseEntity<TaskResponse> updateTask(@PathVariable Long id, @Valid @RequestBody TaskRequest taskRequest) {
+    public TaskResponse updateTask(@PathVariable Long id, @Valid @RequestBody TaskRequest taskRequest) {
         Long userId = getCurrentUserId();
-        TaskResponse updatedTask = taskService.updateTask(id, taskRequest, userId);
-        return ResponseEntity.ok(updatedTask);
+        return taskService.updateTask(id, taskRequest, userId);
     }
 
+    /**
+     * Delete a task by ID for the current user
+     */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTask(@PathVariable Long id) {
         Long userId = getCurrentUserId();
         taskService.deleteTask(id, userId);
-        return ResponseEntity.noContent().build();
     }
 }

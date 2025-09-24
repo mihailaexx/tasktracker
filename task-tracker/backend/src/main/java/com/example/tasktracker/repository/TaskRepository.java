@@ -9,6 +9,15 @@ import java.util.List;
 
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
+
+    /**
+     * Find tasks by their associated user.
+     */
     List<Task> findByUser(User user);
+    
+    /**
+     * Find tasks by their associated user and status.
+     */
     List<Task> findByUserAndStatus(User user, com.example.tasktracker.entity.TaskStatus status);
+    
 }

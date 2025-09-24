@@ -24,7 +24,7 @@ public class Tag {
     private Long id;
 
     @NotBlank(message = "Tag name is required")
-    @Size(min = 1, max = 50, message = "Tag name must be between 1 and 50 characters")
+    @Size(min = 3, max = 50, message = "Tag name must be between 3 and 50 characters")
     @Column(nullable = false, length = 50)
     private String name;
 
@@ -38,21 +38,8 @@ public class Tag {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    // Foreign key to User entity - tags are user-specific
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    // Constructor for convenience
-    public Tag(String name, String color, User user) {
-        this.name = name;
-        this.color = color;
-        this.user = user;
-    }
-
-    public Tag(String name, User user) {
-        this.name = name;
-        this.user = user;
-        this.color = "#3B82F6"; // Default color
-    }
 }

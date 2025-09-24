@@ -20,6 +20,9 @@ public class ProfileService {
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * Get user profile by user ID
+     */
     public ProfileResponse getProfile(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
@@ -30,6 +33,9 @@ public class ProfileService {
         return convertToResponse(profile, user);
     }
 
+    /**
+     * Update user profile
+     */
     public ProfileResponse updateProfile(ProfileRequest profileRequest, Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
@@ -51,6 +57,8 @@ public class ProfileService {
             throw new IllegalArgumentException("Email already exists");
         }
     }
+
+    // Helper methods
 
     private ProfileResponse convertToResponse(Profile profile, User user) {
         ProfileResponse response = new ProfileResponse();

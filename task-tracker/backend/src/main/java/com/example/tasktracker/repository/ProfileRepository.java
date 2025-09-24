@@ -9,5 +9,10 @@ import java.util.Optional;
 
 @Repository
 public interface ProfileRepository extends JpaRepository<Profile, Long> {
+
+    /**
+     * Find a profile by its associated user.
+     */
     Optional<Profile> findByUser(User user);
+    
 }
