@@ -42,4 +42,16 @@ public class Tag {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    public Tag(String name, String color, User user) {
+        this.name = name;
+        this.color = color;
+        this.user = user;
+    }
+
+    public Tag(String name, User user) {
+        this.name = name;
+        this.user = user;
+        this.color = "#3B82F6"; // Default color
+    }
+    
 }

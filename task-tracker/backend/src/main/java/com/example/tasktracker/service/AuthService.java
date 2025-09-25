@@ -109,7 +109,7 @@ public class AuthService {
                 return new AuthResponse(false, "User with these credentials already exists", null, null);
             }
         } catch (Exception e) {
-            return new AuthResponse(false, "Registration failed", null, null);
+            return new AuthResponse(false, "Registration failed" + e.getMessage(), null, null);
         }
     }
 }

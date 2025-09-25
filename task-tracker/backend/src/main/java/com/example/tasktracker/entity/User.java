@@ -18,18 +18,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Username is required")
-    @Size(min = 3, max = 50, message = "Username must be between 3 and 50 characters")
     @Column(unique = true, nullable = false, length = 50)
     private String username;
 
-    @NotBlank(message = "Password is required")
-    @Size(min = 4, max = 50, message = "Password must be between 2 and 50 characters")
     @Column(nullable = false)
     private String password;
 
-    @NotBlank(message = "Email is required")
-    @Size(max = 100, message = "Email must not exceed 100 characters")
     @Column(unique = true, nullable = false)
     private String email;
 
@@ -48,4 +42,15 @@ public class User {
     @Column(name = "role", nullable = false, length = 20)
     private String role = "USER";
 
+    public User(String username, String password, String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.enabled = true;
+        this.accountNonExpired = true;
+        this.accountNonLocked = true;
+        this.credentialsNonExpired = true;
+        this.role = "USER";
+    }
+    
 }
