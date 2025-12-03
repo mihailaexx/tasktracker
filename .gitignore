@@ -10,3 +10,4 @@ task-tracker/backend/.idea/
 .vscode/
 
 **/*.log
+.vscode/settings.json
