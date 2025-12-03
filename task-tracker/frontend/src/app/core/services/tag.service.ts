@@ -14,7 +14,10 @@ export class TagService {
   /**
    * Get all tags for the current user
    */
-  getTags(): Observable<Tag[]> {
+  getTags(userId?: number): Observable<Tag[]> {
+    if (userId) {
+      return this.http.get<Tag[]>(`${this.apiUrl}/user/${userId}`);
+    }
     return this.http.get<Tag[]>(this.apiUrl);
   }
 

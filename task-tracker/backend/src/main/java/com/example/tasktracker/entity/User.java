@@ -1,8 +1,6 @@
 package com.example.tasktracker.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -52,5 +50,5 @@ public class User {
         this.credentialsNonExpired = true;
         this.role = "USER";
     }
-    
+
 }

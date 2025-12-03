@@ -1,0 +1,135 @@
+/* Admin Container - Match Tags Page */
+.tag-management-container {
+    padding: 3rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: calc(100vh - 5rem);
+}
+
+/* Header - Match Tags Page */
+.tag-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.tag-header h1 {
+    margin: 0;
+    color: white;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+/* Table Card - Match Tags Page */
+.tag-table-card {
+    margin-bottom: 2rem;
+}
+
+/* Table Styles - Match Tags Page */
+:host ::ng-deep .modern-table {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+:host ::ng-deep .modern-table .p-datatable-header {
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    padding: 1.5rem;
+}
+
+:host ::ng-deep .modern-table .p-datatable-thead>tr>th {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    font-weight: 600;
+    color: #4a5568;
+    padding: 1rem 1.5rem;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+:host ::ng-deep .modern-table .p-datatable-tbody>tr>td {
+    border: 1px solid #e2e8f0;
+    padding: 1rem 1.5rem;
+    vertical-align: middle;
+}
+
+:host ::ng-deep .modern-table .p-datatable-tbody>tr:hover {
+    background: #f8fafc;
+    transition: background-color 0.2s ease;
+}
+
+/* Table Content Styles - Match Tags Page */
+.task-title {
+    font-weight: 600;
+    color: #2d3748;
+    font-size: 1rem;
+}
+
+.task-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+/* Modern Card Styles - Match Tags Page */
+.modern-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    padding: 2.5rem;
+}
+
+.modern-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+/* Empty State Styles - Match Tags Page */
+.empty-message {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #718096;
+}
+
+.empty-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.empty-state p {
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+/* Button Styles - Match Tags Page */
+:host ::ng-deep .action-btn .p-button {
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+:host ::ng-deep .action-btn .p-button:hover {
+    transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .tag-management-container {
+        padding: 1rem;
+    }
+}

@@ -1,0 +1,206 @@
+{
+  "APP": {
+    "TITLE": "Task Tracker",
+    "WELCOME": "Welcome back,",
+    "LOGOUT": "Logout",
+    "LOGIN": "Login",
+    "REGISTER": "Register"
+  },
+  "MENU": {
+    "DASHBOARD": "Dashboard",
+    "SEARCH": "Search",
+    "TASKS": "Tasks",
+    "TAGS": "Tags",
+    "HOME": "Home"
+  },
+  "AUTH": {
+    "LOGIN": {
+      "TITLE": "Welcome Back",
+      "SUBTITLE": "Sign in to your account",
+      "USERNAME": "Username",
+      "PASSWORD": "Password",
+      "USERNAME_PLACEHOLDER": "Enter your username",
+      "PASSWORD_PLACEHOLDER": "Enter your password",
+      "SUBMIT": "Sign In",
+      "NO_ACCOUNT": "Don't have an account?",
+      "REGISTER_LINK": "Register here",
+      "USERNAME_REQUIRED": "Username is required",
+      "PASSWORD_REQUIRED": "Password is required"
+    },
+    "REGISTER": {
+      "TITLE": "Create Account",
+      "SUBTITLE": "Sign up to get started",
+      "USERNAME": "Username",
+      "EMAIL": "Email",
+      "PASSWORD": "Password",
+      "CONFIRM_PASSWORD": "Confirm Password",
+      "USERNAME_PLACEHOLDER": "Enter your username",
+      "EMAIL_PLACEHOLDER": "Enter your email address",
+      "PASSWORD_PLACEHOLDER": "Enter your password",
+      "CONFIRM_PASSWORD_PLACEHOLDER": "Confirm your password",
+      "SUBMIT": "Sign Up",
+      "HAVE_ACCOUNT": "Already have an account?",
+      "LOGIN_LINK": "Sign in here",
+      "USERNAME_REQUIRED": "Username is required",
+      "USERNAME_MIN": "Username must be at least 3 characters",
+      "EMAIL_REQUIRED": "Email is required",
+      "EMAIL_INVALID": "Please enter a valid email",
+      "PASSWORD_REQUIRED": "Password is required",
+      "PASSWORD_MIN": "Password must be at least 8 characters",
+      "CONFIRM_PASSWORD_REQUIRED": "Please confirm your password",
+      "PASSWORD_MISMATCH": "Passwords do not match"
+    }
+  },
+  "PROFILE": {
+    "WELCOME": {
+      "TITLE": "Welcome to Task Tracker",
+      "DESCRIPTION": "Organize your tasks efficiently and boost your productivity. Please log in or register to get started.",
+      "LOGIN_BTN": "Login",
+      "REGISTER_BTN": "Register"
+    },
+    "HEADER": {
+      "TITLE": "User Profile",
+      "SUBTITLE": "Manage your profile information and view your tasks"
+    },
+    "FORM": {
+      "TITLE": "Profile Information",
+      "USERNAME": "Username",
+      "FIRST_NAME": "First Name",
+      "LAST_NAME": "Last Name",
+      "EMAIL": "Email",
+      "EMAIL_INVALID": "Please enter a valid email address",
+      "UPDATE_BTN": "Update Profile"
+    }
+  },
+  "SEARCH": {
+    "TITLE": "Search",
+    "LOGIN_MESSAGE": "Please log in to search tasks and tags.",
+    "PLACEHOLDER": "Enter search query...",
+    "SEARCH_BTN": "Search",
+    "FILTER": "Filter",
+    "TASKS_TAB": "Tasks",
+    "TAGS_TAB": "Tags",
+    "FILTER_ALL": "All",
+    "FILTER_TODO": "To Do",
+    "FILTER_IN_PROGRESS": "In Progress",
+    "FILTER_DONE": "Done",
+    "NO_TAGS": "No tags",
+    "NO_TASK_RESULTS": "No tasks found matching your search.",
+    "NO_TAG_RESULTS": "No tags found matching your search.",
+    "TABLE": {
+      "TITLE": "Title",
+      "DESCRIPTION": "Description",
+      "TAGS": "Tags",
+      "STATUS": "Status",
+      "UPDATED": "Updated",
+      "ACTIONS": "Actions",
+      "COLOR": "Color",
+      "NAME": "Name",
+      "CREATED": "Created"
+    }
+  },
+  "TASKS": {
+    "TITLE": "Tasks",
+    "ADD_TASK": "Add Task",
+    "EDIT_TASK": "Edit Task",
+    "CREATE_TASK": "Create Task",
+    "UPDATE_TASK": "Update Task",
+    "DELETE_TASK": "Delete Task",
+    "CANCEL": "Cancel",
+    "WELCOME": {
+      "TITLE": "Task Management",
+      "MESSAGE": "Please log in to manage your tasks.",
+      "LOGIN_BTN": "Login",
+      "REGISTER_BTN": "Register"
+    },
+    "FILTER": {
+      "ALL": "All",
+      "TODO": "To Do",
+      "IN_PROGRESS": "In Progress",
+      "DONE": "Done"
+    },
+    "TABLE": {
+      "TITLE": "Title",
+      "DESCRIPTION": "Description",
+      "TAGS": "Tags",
+      "STATUS": "Status",
+      "DUE_DATE": "Due Date",
+      "ACTIONS": "Actions"
+    },
+    "STATUS": {
+      "TODO": "To Do",
+      "IN_PROGRESS": "In Progress",
+      "DONE": "Done"
+    },
+    "EMPTY": {
+      "TITLE": "No tasks yet",
+      "MESSAGE": "Create your first task to get started.",
+      "CREATE_BTN": "Create Task"
+    },
+    "NO_TAGS": "No tags",
+    "CONFIRM_DELETE": "Are you sure you want to delete this task?"
+  },
+  "TAGS": {
+    "TITLE": "Tags",
+    "ADD_TAG": "Add Tag",
+    "EDIT_TAG": "Edit Tag",
+    "CREATE_TAG": "Create Tag",
+    "UPDATE_TAG": "Update Tag",
+    "DELETE_TAG": "Delete Tag",
+    "CANCEL": "Cancel",
+    "FORM": {
+      "TAG_NAME": "Tag Name",
+      "COLOR": "Color",
+      "PREVIEW": "Preview",
+      "TAG_NAME_REQUIRED": "Tag name is required",
+      "COLOR_REQUIRED": "Please select a color",
+      "TAG_NAME_PLACEHOLDER": "Enter tag name..."
+    },
+    "TABLE": {
+      "COLOR": "Color",
+      "NAME": "Name",
+      "CREATED": "Created",
+      "ACTIONS": "Actions"
+    },
+    "EMPTY": {
+      "TITLE": "No tags yet",
+      "MESSAGE": "Create your first tag to organize your tasks.",
+      "CREATE_BTN": "Create Tag"
+    },
+    "DIALOG": {
+      "CREATE_TITLE": "Create New Tag",
+      "EDIT_TITLE": "Edit Tag",
+      "CREATE_SUBTITLE": "Add a new tag to organize your tasks",
+      "EDIT_SUBTITLE": "Update tag details"
+    },
+    "CONFIRM_DELETE": "Are you sure you want to delete this tag?",
+    "LOADING": "Loading tags...",
+    "LOADING_TAG": "Loading..."
+  },
+  "ADMIN": {
+    "TITLE": "User Management",
+    "TABLE": {
+      "ID": "ID",
+      "USERNAME": "Username",
+      "EMAIL": "Email",
+      "ROLE": "Role",
+      "STATUS": "Status",
+      "ACTIONS": "Actions"
+    },
+    "STATUS": {
+      "ACTIVE": "Active",
+      "DISABLED": "Disabled"
+    },
+    "ACTIONS": {
+      "DISABLE_USER": "Disable User",
+      "ENABLE_USER": "Enable User",
+      "VIEW_TASKS": "View Tasks",
+      "VIEW_TAGS": "View Tags"
+    },
+    "EMPTY": {
+      "TITLE": "No users found",
+      "MESSAGE": "There are no users in the system."
+    },
+    "LOADING": "Loading users..."
+  }
+}

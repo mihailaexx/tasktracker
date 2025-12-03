@@ -88,10 +88,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "task-tracker-frontend:build:production"
+              "buildTarget": "task-tracker-frontend:build:production"
             },
             "development": {
-              "browserTarget": "task-tracker-frontend:build:development",
+              "buildTarget": "task-tracker-frontend:build:development",
               "proxyConfig": "proxy.conf.json"
             }
           },
@@ -100,10 +100,13 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "task-tracker-frontend:build"
+            "buildTarget": "task-tracker-frontend:build"
           }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

@@ -11,7 +11,10 @@ export class TaskService {
 
   constructor(private http: HttpClient) { }
 
-  getTasks(): Observable<Task[]> {
+  getTasks(userId?: number): Observable<Task[]> {
+    if (userId) {
+      return this.http.get<Task[]>(`${this.apiUrl}/user/${userId}`);
+    }
     return this.http.get<Task[]>(this.apiUrl);
   }
 
@@ -29,5 +32,11 @@ export class TaskService {
 
   deleteTask(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  searchTasks(query: string): Observable<Task[]> {
+    return this.http.get<Task[]>(`${this.apiUrl}/search`, {
+      params: { q: query }
+    });
   }
 }

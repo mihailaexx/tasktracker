@@ -1,0 +1,97 @@
+<div class="tag-management-container">
+  <div class="tag-header">
+    <h1 class="heading-primary">{{ 'ADMIN.TITLE' | translate }}</h1>
+  </div>
+
+  <div class="tag-table-card modern-card">
+    @if (loading) {
+      <div style="text-align: center; padding: 3rem;">
+        <i class="pi pi-spin pi-spinner" style="font-size: 2rem; color: #667eea;"></i>
+        <p style="margin-top: 1rem; color: #718096;">{{ 'ADMIN.LOADING' | translate }}</p>
+      </div>
+    } @else if (users.length === 0) {
+      <div class="empty-message">
+        <div class="empty-state">
+          <i class="pi pi-users empty-icon"></i>
+          <h3 style="color: #718096; margin-bottom: 0.5rem;">{{ 'ADMIN.EMPTY.TITLE' | translate }}</h3>
+          <p style="color: #a0aec0; margin-bottom: 2rem;">
+            {{ 'ADMIN.EMPTY.MESSAGE' | translate }}
+          </p>
+        </div>
+      </div>
+    } @else {
+      <p-table 
+        [value]="users" 
+        [paginator]="true" 
+        [rows]="10"
+        responsiveLayout="scroll"
+        styleClass="modern-table">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>{{ 'ADMIN.TABLE.ID' | translate }}</th>
+            <th>{{ 'ADMIN.TABLE.USERNAME' | translate }}</th>
+            <th>{{ 'ADMIN.TABLE.EMAIL' | translate }}</th>
+            <th>{{ 'ADMIN.TABLE.ROLE' | translate }}</th>
+            <th>{{ 'ADMIN.TABLE.STATUS' | translate }}</th>
+            <th>{{ 'ADMIN.TABLE.ACTIONS' | translate }}</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user>
+          <tr>
+            <td>{{user.id}}</td>
+            <td>
+              <span class="task-title cursor-pointer text-blue-500 hover:underline" (click)="viewUserTasks(user)">
+                {{user.username}}
+              </span>
+            </td>
+            <td>{{user.email}}</td>
+            <td>
+              <p-tag [severity]="user.role === 'ADMIN' ? 'danger' : 'info'" [value]="user.role"></p-tag>
+            </td>
+            <td>
+              <p-tag 
+                [severity]="user.enabled ? 'success' : 'danger'" 
+                [value]="user.enabled ? ('ADMIN.STATUS.ACTIVE' | translate) : ('ADMIN.STATUS.DISABLED' | translate)">
+              </p-tag>
+            </td>
+            <td>
+              <div class="task-actions">
+                <p-button 
+                  [icon]="user.enabled ? 'pi pi-ban' : 'pi pi-check'" 
+                  [severity]="user.enabled ? 'danger' : 'success'" 
+                  [rounded]="true" 
+                  [text]="true"
+                  (click)="toggleEnabled(user)"
+                  [pTooltip]="user.enabled ? ('ADMIN.ACTIONS.DISABLE_USER' | translate) : ('ADMIN.ACTIONS.ENABLE_USER' | translate)"
+                  tooltipPosition="top"
+                  class="action-btn">
+                </p-button>
+                <p-button 
+                  icon="pi pi-list" 
+                  severity="info" 
+                  [rounded]="true" 
+                  [text]="true"
+                  (click)="viewUserTasks(user)"
+                  [pTooltip]="'ADMIN.ACTIONS.VIEW_TASKS' | translate"
+                  tooltipPosition="top"
+                  class="action-btn ml-2">
+                </p-button>
+                <p-button 
+                  icon="pi pi-tags" 
+                  severity="help" 
+                  [rounded]="true" 
+                  [text]="true"
+                  (click)="viewUserTags(user)"
+                  [pTooltip]="'ADMIN.ACTIONS.VIEW_TAGS' | translate"
+                  tooltipPosition="top"
+                  class="action-btn ml-2">
+                </p-button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    }
+  </div>
+</div>
+<p-toast></p-toast>

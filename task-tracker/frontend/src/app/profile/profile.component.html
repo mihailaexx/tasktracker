@@ -5,16 +5,16 @@
         <div class="welcome-icon">
           <i class="pi pi-home"></i>
         </div>
-        <h2 class="heading-primary">Welcome to Task Tracker</h2>
-        <p class="text-muted welcome-description">Organize your tasks efficiently and boost your productivity. Please log in or register to get started.</p>
+        <h2 class="heading-primary">{{ 'PROFILE.WELCOME.TITLE' | translate }}</h2>
+        <p class="text-muted welcome-description">{{ 'PROFILE.WELCOME.DESCRIPTION' | translate }}</p>
         <div class="welcome-actions">
           <p-button 
-            label="Login" 
+            [label]="'PROFILE.WELCOME.LOGIN_BTN' | translate" 
             icon="pi pi-sign-in" 
             (click)="navigateToLogin()"
             class="welcome-btn-primary" />
           <p-button 
-            label="Register" 
+            [label]="'PROFILE.WELCOME.REGISTER_BTN' | translate" 
             icon="pi pi-user-plus" 
             (click)="navigateToRegister()" 
             severity="secondary"
@@ -26,21 +26,21 @@
   } @else {
     <div class="profile-header">
       <div class="header-content">
-        <h1 class="heading-primary">User Profile</h1>
-        <p class="text-muted">Manage your profile information and view your tasks</p>
+        <h1 class="heading-primary">{{ 'PROFILE.HEADER.TITLE' | translate }}</h1>
+        <p class="text-muted">{{ 'PROFILE.HEADER.SUBTITLE' | translate }}</p>
       </div>
     </div>
     
     <div class="profile-grid">
       <div class="profile-card modern-card">
         <div class="card-header">
-          <h3 class="heading-tertiary">Profile Information</h3>
+          <h3 class="heading-tertiary">{{ 'PROFILE.FORM.TITLE' | translate }}</h3>
           <i class="pi pi-user card-icon"></i>
         </div>
         <div class="card-content">
           <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form">
             <div class="form-group">
-              <label for="username" class="form-label">Username</label>
+              <label for="username" class="form-label">{{ 'PROFILE.FORM.USERNAME' | translate }}</label>
               <input 
                 pInputText
                 type="text" 
@@ -51,7 +51,7 @@
             </div>
             
             <div class="form-group">
-              <label for="firstName" class="form-label">First Name</label>
+              <label for="firstName" class="form-label">{{ 'PROFILE.FORM.FIRST_NAME' | translate }}</label>
               <input 
                 pInputText
                 type="text" 
@@ -61,7 +61,7 @@
             </div>
             
             <div class="form-group">
-              <label for="lastName" class="form-label">Last Name</label>
+              <label for="lastName" class="form-label">{{ 'PROFILE.FORM.LAST_NAME' | translate }}</label>
               <input 
                 pInputText
                 type="text" 
@@ -71,7 +71,7 @@
             </div>
             
             <div class="form-group">
-              <label for="email" class="form-label">Email</label>
+              <label for="email" class="form-label">{{ 'PROFILE.FORM.EMAIL' | translate }}</label>
               <input 
                 pInputText
                 type="email" 
@@ -81,7 +81,7 @@
                 [class.error]="profileForm.get('email')?.invalid && profileForm.get('email')?.touched">
               @if (profileForm.get('email')?.invalid && profileForm.get('email')?.touched) {
                 <small class="error-message">
-                  Please enter a valid email address
+                  {{ 'PROFILE.FORM.EMAIL_INVALID' | translate }}
                 </small>
               }
             </div>
@@ -89,7 +89,7 @@
             <div class="form-actions">
               <p-button 
                 type="submit" 
-                label="Update Profile" 
+                [label]="'PROFILE.FORM.UPDATE_BTN' | translate" 
                 icon="pi pi-save"
                 class="update-btn"
                 [disabled]="profileForm.invalid || profileForm.pristine">

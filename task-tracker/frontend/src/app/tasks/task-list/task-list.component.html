@@ -5,16 +5,16 @@
         <div class="welcome-icon">
           <i class="pi pi-lock"></i>
         </div>
-        <h2 class="heading-primary">Task List</h2>
-        <p class="text-muted welcome-description">Please log in to view and manage your tasks.</p>
+        <h2 class="heading-primary">{{ 'TASKS.WELCOME.TITLE' | translate }}</h2>
+        <p class="text-muted welcome-description">{{ 'TASKS.WELCOME.MESSAGE' | translate }}</p>
         <div class="welcome-actions">
           <p-button 
-            label="Login" 
+            [label]="'TASKS.WELCOME.LOGIN_BTN' | translate" 
             icon="pi pi-sign-in" 
             (click)="navigateToLogin()"
             class="welcome-btn-primary" />
           <p-button 
-            label="Register" 
+            [label]="'TASKS.WELCOME.REGISTER_BTN' | translate" 
             icon="pi pi-user-plus" 
             (click)="navigateToRegister()" 
             severity="secondary"
@@ -25,9 +25,9 @@
     </div>
   } @else {
     <div class="task-header">
-      <h1 class="heading-primary">Tasks</h1>
+      <h1 class="heading-primary">{{ 'TASKS.TITLE' | translate }}</h1>
       <p-button 
-        label="Add Task" 
+        [label]="'TASKS.ADD_TASK' | translate" 
         icon="pi pi-plus" 
         (click)="addTask()"
         class="nav-btn-outline" />
@@ -36,24 +36,24 @@
     <div class="task-filters-card modern-card">
       <div class="filter-buttons">
         <p-button 
-          label="All" 
+          [label]="'TASKS.FILTER.ALL' | translate" 
           [outlined]="filter !== 'all'" 
           (click)="filterTasks('all')"
           class="filter-btn" />
         <p-button 
-          label="To Do" 
+          [label]="'TASKS.FILTER.TODO' | translate" 
           [outlined]="filter !== 'todo'" 
           (click)="filterTasks('todo')" 
           severity="warn"
           class="filter-btn" />
         <p-button 
-          label="In Progress" 
+          [label]="'TASKS.FILTER.IN_PROGRESS' | translate" 
           [outlined]="filter !== 'in_progress'" 
           (click)="filterTasks('in_progress')" 
           severity="info"
           class="filter-btn" />
         <p-button 
-          label="Done" 
+          [label]="'TASKS.FILTER.DONE' | translate" 
           [outlined]="filter !== 'done'" 
           (click)="filterTasks('done')" 
           severity="success"
@@ -70,12 +70,12 @@
         styleClass="modern-table">
         <ng-template pTemplate="header">
           <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Tags</th>
-            <th>Status</th>
-            <th>Updated</th>
-            <th>Actions</th>
+            <th>{{ 'TASKS.TABLE.TITLE' | translate }}</th>
+            <th>{{ 'TASKS.TABLE.DESCRIPTION' | translate }}</th>
+            <th>{{ 'TASKS.TABLE.TAGS' | translate }}</th>
+            <th>{{ 'TASKS.TABLE.STATUS' | translate }}</th>
+            <th>{{ 'SEARCH.TABLE.UPDATED' | translate }}</th>
+            <th>{{ 'TASKS.TABLE.ACTIONS' | translate }}</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-task>
@@ -95,7 +95,7 @@
                     </span>
                   }
                 } @else {
-                  <span class="no-tags">No tags</span>
+                  <span class="no-tags">{{ 'TASKS.NO_TAGS' | translate }}</span>
                 }
               </div>
             </td>
@@ -125,7 +125,7 @@
             <td colspan="6" class="empty-message">
               <div class="empty-state">
                 <i class="pi pi-inbox empty-icon"></i>
-                <p>No tasks found. Start by creating your first task!</p>
+                <p>{{ 'TASKS.EMPTY.MESSAGE' | translate }}</p>
               </div>
             </td>
           </tr>

@@ -1,19 +1,19 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormsModule} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
-import {TaskStatus} from '../../core/models/task.model';
-import {TaskService} from '../../core/services/task.service';
-import {TagService} from '../../core/services/tag.service';
-import {AuthService} from '../../core/services/auth.service';
-import {Tag} from '../../core/models/tag.model';
-import {NgIf, NgClass} from '@angular/common';
-import {ButtonModule} from 'primeng/button';
-import {CardModule} from 'primeng/card';
-import {InputTextModule} from 'primeng/inputtext';
-import {TextareaModule} from 'primeng/textarea';
-import {SelectModule} from 'primeng/select';
-import {MultiSelectModule} from 'primeng/multiselect';
-import {MessageService} from 'primeng/api';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TaskStatus } from '../../core/models/task.model';
+import { TaskService } from '../../core/services/task.service';
+import { TagService } from '../../core/services/tag.service';
+import { AuthService } from '../../core/services/auth.service';
+import { Tag } from '../../core/models/tag.model';
+import { NgIf, NgClass } from '@angular/common';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { InputTextModule } from 'primeng/inputtext';
+import { TextareaModule } from 'primeng/textarea';
+import { SelectModule } from 'primeng/select';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-task-form',
@@ -23,7 +23,6 @@ import {MessageService} from 'primeng/api';
   imports: [
     ReactiveFormsModule,
     FormsModule,
-    NgIf,
     NgClass,
     ButtonModule,
     CardModule,
@@ -43,9 +42,9 @@ export class TaskFormComponent implements OnInit {
   selectedTags: number[] = [];
 
   statusOptions = [
-    {label: 'To Do', value: TaskStatus.TODO},
-    {label: 'In Progress', value: TaskStatus.IN_PROGRESS},
-    {label: 'Done', value: TaskStatus.DONE}
+    { label: 'To Do', value: TaskStatus.TODO },
+    { label: 'In Progress', value: TaskStatus.IN_PROGRESS },
+    { label: 'Done', value: TaskStatus.DONE }
   ];
 
   constructor(
@@ -79,7 +78,7 @@ export class TaskFormComponent implements OnInit {
     if (this.isAuthenticated) {
       // Load tags first
       this.loadTags();
-      
+
       const id = this.route.snapshot.paramMap.get('id');
       if (id) {
         this.isEditMode = true;
@@ -108,7 +107,7 @@ export class TaskFormComponent implements OnInit {
           description: task.description,
           status: task.status
         });
-        
+
         // Set selected tags if task has tags
         if (task.tags && task.tags.length > 0) {
           this.selectedTags = task.tags.map(tag => tag.id).filter(id => id !== undefined);

@@ -5,38 +5,42 @@
         <div class="icon-wrapper">
           <i class="pi pi-calendar-clock text-white text-2xl"></i>
         </div>
-        <span class="brand-text">Task Tracker</span>
+        <span class="brand-text">{{ 'APP.TITLE' | translate }}</span>
       </div>
     </ng-template>
     <ng-template #end>
-      @if (isAuthenticated) {
-        <div class="flex items-center">
-          <div class="user-greeting">
-            <span class="welcome-text">Welcome back,</span>
-            <span class="username-text">{{ username }}!</span>
+      <div class="flex items-center gap-3">
+        <app-language-switcher></app-language-switcher>
+        
+        @if (isAuthenticated) {
+          <div class="flex items-center">
+            <div class="user-greeting">
+              <span class="welcome-text">{{ 'APP.WELCOME' | translate }}</span>
+              <span class="username-text">{{ username }}!</span>
+            </div>
+            <p-button 
+              [label]="'APP.LOGOUT' | translate" 
+              icon="pi pi-sign-out" 
+              (click)="logout()" 
+              severity="secondary" 
+              class="logout-btn" />
           </div>
-          <p-button 
-            label="Logout" 
-            icon="pi pi-sign-out" 
-            (click)="logout()" 
-            severity="secondary" 
-            class="logout-btn" />
-        </div>
-      } @else {
-        <div class="flex gap-3">
-          <p-button 
-            label="Login" 
-            icon="pi pi-sign-in" 
-            routerLink="/login" 
-            [outlined]="true" 
-            class="nav-btn-outline" />
-          <p-button 
-            label="Register" 
-            icon="pi pi-user-plus" 
-            routerLink="/register" 
-            class="nav-btn-solid" />
-        </div>
-      }
+        } @else {
+          <div class="flex gap-3">
+            <p-button 
+              [label]="'APP.LOGIN' | translate" 
+              icon="pi pi-sign-in" 
+              routerLink="/login" 
+              [outlined]="true" 
+              class="nav-btn-outline" />
+            <p-button 
+              [label]="'APP.REGISTER' | translate" 
+              icon="pi pi-user-plus" 
+              routerLink="/register" 
+              class="nav-btn-solid" />
+          </div>
+        }
+      </div>
     </ng-template>
   </p-menubar>
   

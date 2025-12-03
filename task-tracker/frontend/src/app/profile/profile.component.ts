@@ -15,6 +15,7 @@ import { PanelModule } from 'primeng/panel';
 import { TagModule } from 'primeng/tag';
 import { TableModule } from 'primeng/table';
 import { MessageService } from 'primeng/api';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-profile',
@@ -30,7 +31,8 @@ import { MessageService } from 'primeng/api';
     TextareaModule,
     PanelModule,
     TagModule,
-    TableModule
+    TableModule,
+    TranslateModule
   ],
   providers: [MessageService]
 })
@@ -68,14 +70,14 @@ export class ProfileComponent implements OnInit {
         }
       }
     );
-    
+
     // Subscribe to username
     this.authService.username$.subscribe(
       username => {
         this.username = username;
       }
     );
-    
+
     // Check initial authentication status
     this.isAuthenticated = this.authService.isAuthenticated();
   }
@@ -88,10 +90,10 @@ export class ProfileComponent implements OnInit {
       },
       error: (error: any) => {
         console.error('Error loading profile:', error);
-        this.messageService.add({ 
-          severity: 'error', 
-          summary: 'Error', 
-          detail: 'Failed to load profile' 
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to load profile'
         });
       }
     });
@@ -104,10 +106,10 @@ export class ProfileComponent implements OnInit {
       },
       error: (error: any) => {
         console.error('Error loading tasks:', error);
-        this.messageService.add({ 
-          severity: 'error', 
-          summary: 'Error', 
-          detail: 'Failed to load tasks' 
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to load tasks'
         });
       }
     });
@@ -141,18 +143,18 @@ export class ProfileComponent implements OnInit {
       next: (updatedProfile: Profile) => {
         this.profile = updatedProfile;
         this.profileForm.markAsPristine();
-        this.messageService.add({ 
-          severity: 'success', 
-          summary: 'Success', 
-          detail: 'Profile updated successfully' 
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Profile updated successfully'
         });
       },
       error: (error: any) => {
         console.error('Error updating profile:', error);
-        this.messageService.add({ 
-          severity: 'error', 
-          summary: 'Error', 
-          detail: 'Failed to update profile' 
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to update profile'
         });
       }
     });

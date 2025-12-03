@@ -1,4 +1,12 @@
-/task-tracker/frontend/node_modules/
-/task-tracker/frontend/.angular
-/.vscode/
-/.playwright-mcp/
+task-tracker/frontend/.angular/
+task-tracker/frontend/.idea/
+task-tracker/frontend/dist/
+task-tracker/frontend/node_modules/
+task-tracker/frontend/build/
+
+task-tracker/backend/target/
+task-tracker/backend/.idea/
+
+.vscode/
+
+**/*.log

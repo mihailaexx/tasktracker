@@ -34,7 +34,7 @@
 }
 
 /* Active menu item with gradient text */
-:host ::ng-deep .modern-navbar .p-menuitem.p-focus > .p-menuitem-link,
+:host ::ng-deep .modern-navbar .p-menuitem.p-focus>.p-menuitem-link,
 :host ::ng-deep .modern-navbar .p-menuitem-link.router-link-active {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
   -webkit-background-clip: text !important;
@@ -118,6 +118,7 @@
   color: white !important;
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3) !important;
   transition: all 0.3s ease !important;
+  align-items: center;
 }
 
 :host ::ng-deep .nav-btn-solid .p-button:hover {

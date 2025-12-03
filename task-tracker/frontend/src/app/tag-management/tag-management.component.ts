@@ -14,6 +14,7 @@ import { ToastModule } from 'primeng/toast';
 import { ColorPickerModule } from 'primeng/colorpicker';
 import { TagModule } from 'primeng/tag';
 import { MessageService, ConfirmationService } from 'primeng/api';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-tag-management',
@@ -32,7 +33,8 @@ import { MessageService, ConfirmationService } from 'primeng/api';
     ConfirmDialogModule,
     ToastModule,
     ColorPickerModule,
-    TagModule
+    TagModule,
+    TranslateModule
   ],
   providers: [MessageService, ConfirmationService]
 })
@@ -44,6 +46,7 @@ export class TagManagementComponent implements OnInit {
   selectedTag: Tag | null = null;
   loading = false;
   isFormPage = false; // New property to track if we're on form page
+  userId: number | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -64,7 +67,7 @@ export class TagManagementComponent implements OnInit {
     this.route.url.subscribe(segments => {
       const path = segments.map(segment => segment.path).join('/');
       this.isFormPage = path === 'new' || path.startsWith('edit/');
-      
+
       if (path === 'new') {
         this.openNewTagDialog();
       } else if (path.startsWith('edit/')) {
@@ -74,7 +77,15 @@ export class TagManagementComponent implements OnInit {
         }
       }
     });
-    
+
+    // Check for userId query param
+    this.route.queryParams.subscribe(params => {
+      if (params['userId']) {
+        this.userId = +params['userId'];
+        this.loadTags();
+      }
+    });
+
     if (!this.isFormPage) {
       this.loadTags();
     }
@@ -82,7 +93,8 @@ export class TagManagementComponent implements OnInit {
 
   loadTags(): void {
     this.loading = true;
-    this.tagService.getTags().subscribe({
+    const userId = this.userId ? this.userId : undefined;
+    this.tagService.getTags(userId).subscribe({
       next: (tags: Tag[]) => {
         this.tags = tags;
         this.loading = false;
@@ -132,7 +144,7 @@ export class TagManagementComponent implements OnInit {
       name: '',
       color: '#3B82F6'
     });
-    
+
     if (this.isFormPage) {
       // We're on the form page, just set up the form
       return;
@@ -149,7 +161,7 @@ export class TagManagementComponent implements OnInit {
       name: tag.name,
       color: tag.color
     });
-    
+
     if (this.isFormPage) {
       // Navigate to edit page
       this.router.navigate(['/tags/edit', tag.id]);
@@ -183,14 +195,14 @@ export class TagManagementComponent implements OnInit {
           summary: 'Success',
           detail: 'Tag created successfully'
         });
-        
+
         if (this.isFormPage) {
           this.router.navigate(['/tags']);
         } else {
           this.showTagDialog = false;
           this.loadTags();
         }
-        
+
         this.tagForm.reset();
       },
       error: (error: any) => {
@@ -220,14 +232,14 @@ export class TagManagementComponent implements OnInit {
           summary: 'Success',
           detail: 'Tag updated successfully'
         });
-        
+
         if (this.isFormPage) {
           this.router.navigate(['/tags']);
         } else {
           this.showTagDialog = false;
           this.loadTags();
         }
-        
+
         this.tagForm.reset();
       },
       error: (error: any) => {

@@ -14,8 +14,8 @@ COPY src ./src
 # Build the application
 RUN mvn package -DskipTests
 
-# Use OpenJDK 21 as the runtime base image
-FROM openjdk:21-jdk-slim
+# Use Eclipse Temurin 21 as the runtime base image
+FROM eclipse-temurin:21-jdk-noble
 
 ARG VERSION=0.0.2-SNAPSHOT
 

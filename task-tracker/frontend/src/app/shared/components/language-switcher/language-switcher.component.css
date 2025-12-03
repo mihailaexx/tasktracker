@@ -1,0 +1,9 @@
+:host ::ng-deep .p-select {
+    border: 2px solid rgba(255, 255, 255, .8) !important;
+    background: transparent;
+}
+
+:host ::ng-deep .p-select-label {
+    color: #fff;
+    font-weight: 500;
+}

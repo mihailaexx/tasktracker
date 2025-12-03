@@ -48,10 +48,9 @@ public class AuthController {
         logger.info("Registration attempt for user: {}", registerRequest.getUsername());
 
         AuthResponse response = authService.registerUser(
-            registerRequest.getUsername(),
-            registerRequest.getPassword(),
-            registerRequest.getEmail()
-        );
+                registerRequest.getUsername(),
+                registerRequest.getPassword(),
+                registerRequest.getEmail());
 
         if (response.isSuccess()) {
             logger.info("Successful registration for user: {}", registerRequest.getUsername());
@@ -71,7 +70,7 @@ public class AuthController {
             SecurityContextHolder.clearContext();
         }
 
-        return new AuthResponse(true, "Logout successful", null, null);
+        return new AuthResponse(true, "Logout successful", null, null, null);
     }
 
     @GetMapping("/me")
@@ -79,7 +78,11 @@ public class AuthController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getName())) {
-            return new AuthResponse(true, "User authenticated", null, auth.getName());
+            String role = auth.getAuthorities().stream()
+                    .findFirst()
+                    .map(a -> a.getAuthority().replace("ROLE_", ""))
+                    .orElse("USER");
+            return new AuthResponse(true, "User authenticated", null, auth.getName(), role);
         } else {
             throw new RuntimeException("User not authenticated");
         }

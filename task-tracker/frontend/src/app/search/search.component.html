@@ -1,0 +1,201 @@
+<div class="task-list-container">
+  @if (!isAuthenticated) {
+    <div class="welcome-card modern-card">
+      <div class="welcome-content">
+        <div class="welcome-icon">
+          <i class="pi pi-lock"></i>
+        </div>
+        <h2 class="heading-primary">{{ 'SEARCH.TITLE' | translate }}</h2>
+        <p class="text-muted welcome-description">{{ 'SEARCH.LOGIN_MESSAGE' | translate }}</p>
+        <div class="welcome-actions">
+          <p-button 
+            [label]="'APP.LOGIN' | translate" 
+            icon="pi pi-sign-in" 
+            (click)="navigateToLogin()"
+            class="welcome-btn-primary" />
+          <p-button 
+            [label]="'APP.REGISTER' | translate" 
+            icon="pi pi-user-plus" 
+            (click)="navigateToRegister()" 
+            severity="secondary"
+            [outlined]="true"
+            class="welcome-btn-secondary" />
+        </div>
+      </div>
+    </div>
+  } @else {
+    <div class="task-header">
+      <h1 class="heading-primary">{{ 'SEARCH.TITLE' | translate }}</h1>
+    </div>
+    
+    <!-- Search Input -->
+    <div class="search-input-card modern-card">
+      <div class="search-input-wrapper">
+        <span class="p-input-icon-left" style="width: 100%;">
+          <i class="pi pi-search"></i>
+          <input 
+            type="text" 
+            pInputText 
+            [(ngModel)]="searchQuery"
+            (keyup.enter)="onSearch()"
+            [placeholder]="'SEARCH.PLACEHOLDER' | translate"
+            class="search-input" />
+        </span>
+        <p-button 
+          [label]="'SEARCH.SEARCH_BTN' | translate" 
+          icon="pi pi-search" 
+          (click)="onSearch()"
+          class="search-btn" />
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="search-tabs-card modern-card">
+      <div class="tab-buttons">
+        <p-button 
+          [label]="'SEARCH.TASKS_TAB' | translate" 
+          icon="pi pi-check-square"
+          [outlined]="activeTab !== 'tasks'" 
+          (click)="switchTab('tasks')"
+          class="tab-btn" />
+        <p-button 
+          [label]="'SEARCH.TAGS_TAB' | translate" 
+          icon="pi pi-tags"
+          [outlined]="activeTab !== 'tags'" 
+          (click)="switchTab('tags')" 
+          class="tab-btn" />
+      </div>
+    </div>
+    
+    <!-- Results Table -->
+    <div class="task-table-card modern-card">
+      @if (activeTab === 'tasks') {
+        <!-- Task Results -->
+        <p-table 
+          [value]="filteredTaskResults" 
+          [paginator]="true" 
+          [rows]="10"
+          responsiveLayout="scroll"
+          styleClass="modern-table">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>{{ 'SEARCH.TABLE.TITLE' | translate }}</th>
+              <th>{{ 'SEARCH.TABLE.DESCRIPTION' | translate }}</th>
+              <th>{{ 'SEARCH.TABLE.TAGS' | translate }}</th>
+              <th>{{ 'SEARCH.TABLE.STATUS' | translate }}</th>
+              <th>{{ 'SEARCH.TABLE.UPDATED' | translate }}</th>
+              <th>{{ 'SEARCH.TABLE.ACTIONS' | translate }}</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-task>
+            <tr>
+              <td class="task-title">{{ task.title }}</td>
+              <td class="task-description">{{ task.description }}</td>
+              <td class="task-tags">
+                <div class="tags-container">
+                  @if (task.tags && task.tags.length > 0) {
+                    @for (tag of task.tags; track tag.id) {
+                      <span 
+                        class="task-tag" 
+                        [style.background-color]="tag.color + '20'"
+                        [style.color]="tag.color"
+                        [style.border]="'1px solid ' + tag.color">
+                        {{ tag.name }}
+                      </span>
+                    }
+                  } @else {
+                    <span class="no-tags">{{ 'SEARCH.NO_TAGS' | translate }}</span>
+                  }
+                </div>
+              </td>
+              <td>
+                <p-tag [severity]="getSeverity(task.status)" [value]="formatStatusDisplay(task.status)" class="task-status"></p-tag>
+              </td>
+              <td class="task-date">{{ task.updatedAt | date:'short' }}</td>
+              <td>
+                <div class="task-actions">
+                  <p-button 
+                    icon="pi pi-pencil" 
+                    (click)="editTask(task.id!)" 
+                    class="action-btn edit-btn" 
+                    size="small" />
+                  <p-button 
+                    icon="pi pi-trash" 
+                    (click)="confirmDeleteTask(task)" 
+                    class="action-btn delete-btn" 
+                    severity="danger"
+                    size="small" />
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="6" class="empty-message">
+                <div class="empty-state">
+                  <i class="pi pi-inbox empty-icon"></i>
+                  <p>{{ 'SEARCH.NO_TASK_RESULTS' | translate }}</p>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      } @else {
+        <!-- Tag Results -->
+        <p-table 
+          [value]="tagResults" 
+          [paginator]="true" 
+          [rows]="10"
+          responsiveLayout="scroll"
+          styleClass="modern-table">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>{{ 'SEARCH.TABLE.COLOR' | translate }}</th>
+              <th>{{ 'SEARCH.TABLE.NAME' | translate }}</th>
+              <th>{{ 'SEARCH.TABLE.CREATED' | translate }}</th>
+              <th>{{ 'SEARCH.TABLE.ACTIONS' | translate }}</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-tag>
+            <tr>
+              <td>
+                <div 
+                  class="tag-color" 
+                  [style.background-color]="tag.color">
+                </div>
+              </td>
+              <td>
+                <span class="task-title">{{ tag.name }}</span>
+              </td>
+              <td>
+                <span class="task-date">{{ tag.createdAt | date:'short' }}</span>
+              </td>
+              <td>
+                <div class="task-actions">
+                  <p-button 
+                    icon="pi pi-trash" 
+                    size="small"
+                    (click)="confirmDeleteTag(tag)"
+                    severity="danger"
+                    class="action-btn delete-btn" />
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="4" class="empty-message">
+                <div class="empty-state">
+                  <i class="pi pi-inbox empty-icon"></i>
+                  <p>{{ 'SEARCH.NO_TAG_RESULTS' | translate }}</p>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      }
+    </div>
+  }
+</div>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

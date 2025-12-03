@@ -5,13 +5,13 @@
         <div class="auth-icon">
           <i class="pi pi-sign-in"></i>
         </div>
-        <h1 class="heading-primary">Welcome Back</h1>
-        <p class="text-muted auth-subtitle">Sign in to your account</p>
+        <h1 class="heading-primary">{{ 'AUTH.LOGIN.TITLE' | translate }}</h1>
+        <p class="text-muted auth-subtitle">{{ 'AUTH.LOGIN.SUBTITLE' | translate }}</p>
       </div>
       
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
         <div class="form-group">
-          <label for="username" class="form-label">Username</label>
+          <label for="username" class="form-label">{{ 'AUTH.LOGIN.USERNAME' | translate }}</label>
           <div class="form-input-with-icon">
             <input 
               pInputText
@@ -19,31 +19,31 @@
               id="username" 
               formControlName="username" 
               class="form-input"
-              placeholder="Enter your username"
+              [placeholder]="'AUTH.LOGIN.USERNAME_PLACEHOLDER' | translate"
               [class.error]="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
             <i class="pi pi-user input-icon"></i>
           </div>
           @if (loginForm.get('username')?.invalid && loginForm.get('username')?.touched) {
             <small class="error-message">
-              Username is required
+              {{ 'AUTH.LOGIN.USERNAME_REQUIRED' | translate }}
             </small>
           }
         </div>
         
         <div class="form-group">
-          <label for="password" class="form-label">Password</label>
+          <label for="password" class="form-label">{{ 'AUTH.LOGIN.PASSWORD' | translate }}</label>
           <p-password 
             id="password" 
             formControlName="password" 
             class="form-input-password"
-            placeholder="Enter your password"
+            [placeholder]="'AUTH.LOGIN.PASSWORD_PLACEHOLDER' | translate"
             [class.error]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
             [feedback]="false"
             [toggleMask]="true">
           </p-password>
           @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
             <small class="error-message">
-              Password is required
+              {{ 'AUTH.LOGIN.PASSWORD_REQUIRED' | translate }}
             </small>
           }
         </div>
@@ -51,7 +51,7 @@
         <div class="form-actions">
           <p-button 
             type="submit" 
-            label="Sign In" 
+            [label]="'AUTH.LOGIN.SUBMIT' | translate" 
             icon="pi pi-sign-in"
             class="auth-submit-btn"
             [disabled]="loginForm.invalid">
@@ -61,9 +61,9 @@
       
       <div class="auth-footer">
         <p class="auth-link-text">
-          Don't have an account? 
+          {{ 'AUTH.LOGIN.NO_ACCOUNT' | translate }} 
           <a class="auth-link" (click)="navigateToRegister()">
-            Register here
+            {{ 'AUTH.LOGIN.REGISTER_LINK' | translate }}
           </a>
         </p>
       </div>

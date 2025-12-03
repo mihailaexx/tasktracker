@@ -5,13 +5,13 @@
         <div class="auth-icon">
           <i class="pi pi-user-plus"></i>
         </div>
-        <h1 class="heading-primary">Create Account</h1>
-        <p class="text-muted auth-subtitle">Sign up to get started</p>
+        <h1 class="heading-primary">{{ 'AUTH.REGISTER.TITLE' | translate }}</h1>
+        <p class="text-muted auth-subtitle">{{ 'AUTH.REGISTER.SUBTITLE' | translate }}</p>
       </div>
       
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
         <div class="form-group">
-          <label for="username" class="form-label">Username</label>
+          <label for="username" class="form-label">{{ 'AUTH.REGISTER.USERNAME' | translate }}</label>
           <div class="form-input-with-icon">
             <input 
               pInputText
@@ -19,24 +19,24 @@
               id="username" 
               formControlName="username" 
               class="form-input"
-              placeholder="Enter your username"
+              [placeholder]="'AUTH.REGISTER.USERNAME_PLACEHOLDER' | translate"
               [class.error]="registerForm.get('username')?.invalid && registerForm.get('username')?.touched">
             <i class="pi pi-user input-icon"></i>
           </div>
           @if (registerForm.get('username')?.invalid && registerForm.get('username')?.touched) {
             <small class="error-message">
               @if (registerForm.get('username')?.errors?.['required']) {
-                <div>Username is required</div>
+                <div>{{ 'AUTH.REGISTER.USERNAME_REQUIRED' | translate }}</div>
               }
               @if (registerForm.get('username')?.errors?.['minlength']) {
-                <div>Username must be at least 3 characters</div>
+                <div>{{ 'AUTH.REGISTER.USERNAME_MIN' | translate }}</div>
               }
             </small>
           }
         </div>
         
         <div class="form-group">
-          <label for="email" class="form-label">Email</label>
+          <label for="email" class="form-label">{{ 'AUTH.REGISTER.EMAIL' | translate }}</label>
           <div class="form-input-with-icon">
             <input 
               pInputText
@@ -44,29 +44,29 @@
               id="email" 
               formControlName="email" 
               class="form-input"
-              placeholder="Enter your email address"
+              [placeholder]="'AUTH.REGISTER.EMAIL_PLACEHOLDER' | translate"
               [class.error]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
             <i class="pi pi-envelope input-icon"></i>
           </div>
           @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
             <small class="error-message">
               @if (registerForm.get('email')?.errors?.['required']) {
-                <div>Email is required</div>
+                <div>{{ 'AUTH.REGISTER.EMAIL_REQUIRED' | translate }}</div>
               }
               @if (registerForm.get('email')?.errors?.['email']) {
-                <div>Please enter a valid email</div>
+                <div>{{ 'AUTH.REGISTER.EMAIL_INVALID' | translate }}</div>
               }
             </small>
           }
         </div>
         
         <div class="form-group">
-          <label for="password" class="form-label">Password</label>
+          <label for="password" class="form-label">{{ 'AUTH.REGISTER.PASSWORD' | translate }}</label>
           <p-password 
             id="password" 
             formControlName="password" 
             class="form-input-password"
-            placeholder="Enter your password"
+            [placeholder]="'AUTH.REGISTER.PASSWORD_PLACEHOLDER' | translate"
             [class.error]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
             [feedback]="true"
             [toggleMask]="true">
@@ -74,22 +74,22 @@
           @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
             <small class="error-message">
               @if (registerForm.get('password')?.errors?.['required']) {
-                <div>Password is required</div>
+                <div>{{ 'AUTH.REGISTER.PASSWORD_REQUIRED' | translate }}</div>
               }
               @if (registerForm.get('password')?.errors?.['minlength']) {
-                <div>Password must be at least 8 characters</div>
+                <div>{{ 'AUTH.REGISTER.PASSWORD_MIN' | translate }}</div>
               }
             </small>
           }
         </div>
         
         <div class="form-group">
-          <label for="confirmPassword" class="form-label">Confirm Password</label>
+          <label for="confirmPassword" class="form-label">{{ 'AUTH.REGISTER.CONFIRM_PASSWORD' | translate }}</label>
           <p-password 
             id="confirmPassword" 
             formControlName="confirmPassword" 
             class="form-input-password"
-            placeholder="Confirm your password"
+            [placeholder]="'AUTH.REGISTER.CONFIRM_PASSWORD_PLACEHOLDER' | translate"
             [class.error]="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched"
             [feedback]="false"
             [toggleMask]="true">
@@ -97,13 +97,13 @@
           @if (registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched) {
             <small class="error-message">
               @if (registerForm.get('confirmPassword')?.errors?.['required']) {
-                <div>Please confirm your password</div>
+                <div>{{ 'AUTH.REGISTER.CONFIRM_PASSWORD_REQUIRED' | translate }}</div>
               }
             </small>
           }
           @if (registerForm.hasError('mismatch') && registerForm.get('confirmPassword')?.touched) {
             <small class="error-message">
-              Passwords do not match
+              {{ 'AUTH.REGISTER.PASSWORD_MISMATCH' | translate }}
             </small>
           }
         </div>
@@ -111,7 +111,7 @@
         <div class="form-actions">
           <p-button 
             type="submit" 
-            label="Sign Up" 
+            [label]="'AUTH.REGISTER.SUBMIT' | translate" 
             icon="pi pi-user-plus"
             class="auth-submit-btn"
             [disabled]="registerForm.invalid">
@@ -121,9 +121,9 @@
       
       <div class="auth-footer">
         <p class="auth-link-text">
-          Already have an account? 
+          {{ 'AUTH.REGISTER.HAVE_ACCOUNT' | translate }} 
           <a class="auth-link" (click)="navigateToLogin()">
-            Sign in here
+            {{ 'AUTH.REGISTER.LOGIN_LINK' | translate }}
           </a>
         </p>
       </div>

@@ -1,0 +1,436 @@
+/* Search Container */
+.task-list-container {
+    padding: 3rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: calc(100vh - 5rem);
+}
+
+/* Welcome Section for unauthenticated users */
+.welcome-card {
+    text-align: center;
+    padding: 4rem 3rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.welcome-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.welcome-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 25px;
+    margin-bottom: 2rem;
+    box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);
+}
+
+.welcome-icon i {
+    font-size: 3rem;
+    color: white;
+}
+
+.welcome-description {
+    font-size: 1.125rem;
+    margin-bottom: 3rem;
+    line-height: 1.7;
+    text-align: center;
+    max-width: 500px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.welcome-actions {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* Header */
+.task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.task-header h1 {
+    color: white;
+}
+
+/* Search Input Card */
+.search-input-card {
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.search-input-wrapper {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.875rem 1rem 0.875rem 3rem !important;
+    font-size: 1rem;
+    border-radius: 12px;
+    border: 2px solid rgba(102, 126, 234, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    border-color: #667eea;
+    background: rgba(255, 255, 255, 0.08);
+    outline: none;
+}
+
+.search-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+:host ::ng-deep .search-input-wrapper .p-input-icon-left>i {
+    color: rgba(255, 255, 255, 0.6);
+    left: 1rem;
+}
+
+:host ::ng-deep .search-btn .p-button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 12px;
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+:host ::ng-deep .search-btn .p-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* Tabs Card */
+.search-tabs-card {
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.tab-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+:host ::ng-deep .tab-btn .p-button {
+    border-radius: 12px;
+    padding: 0.875rem 2rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+:host ::ng-deep .tab-btn .p-button:hover {
+    transform: translateY(-1px);
+}
+
+/* Filter Cards */
+.task-filters-card {
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+/* Table Card */
+.task-table-card {
+    padding: 2.5rem;
+}
+
+/* Button Styles */
+:host ::ng-deep .welcome-btn-primary .p-button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 12px;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    transition: all 0.3s ease;
+}
+
+:host ::ng-deep .welcome-btn-primary .p-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+:host ::ng-deep .welcome-btn-secondary .p-button {
+    background: transparent;
+    border: 2px solid #667eea;
+    color: #667eea;
+    border-radius: 12px;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+:host ::ng-deep .welcome-btn-secondary .p-button:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-2px);
+}
+
+:host ::ng-deep .nav-btn-outline .p-button {
+    background: transparent !important;
+    border: 2px solid rgba(255, 255, 255, 0.8) !important;
+    color: white !important;
+    transition: all 0.3s ease !important;
+}
+
+:host ::ng-deep .nav-btn-outline .p-button:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: white !important;
+    transform: translateY(-1px);
+}
+
+:host ::ng-deep .filter-btn .p-button {
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+:host ::ng-deep .filter-btn .p-button:hover {
+    transform: translateY(-1px);
+}
+
+/* Table Styles */
+:host ::ng-deep .modern-table {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+:host ::ng-deep .modern-table .p-datatable-header {
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    padding: 1.5rem;
+}
+
+:host ::ng-deep .modern-table .p-datatable-thead>tr>th {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    font-weight: 600;
+    color: #4a5568;
+    padding: 1rem 1.5rem;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+:host ::ng-deep .modern-table .p-datatable-tbody>tr>td {
+    border: 1px solid #e2e8f0;
+    padding: 1rem 1.5rem;
+    vertical-align: middle;
+}
+
+:host ::ng-deep .modern-table .p-datatable-tbody>tr:hover {
+    background: #f8fafc;
+    transition: background-color 0.2s ease;
+}
+
+/* Table Content */
+.task-title {
+    font-weight: 600;
+    color: #2d3748;
+    font-size: 1rem;
+}
+
+.task-description {
+    color: #4a5568;
+    max-width: 200px;
+    word-wrap: break-word;
+}
+
+.task-date {
+    color: #718096;
+    font-size: 0.875rem;
+}
+
+.task-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+:host ::ng-deep .action-btn .p-button {
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+:host ::ng-deep .edit-btn .p-button {
+    background: transparent;
+    border: 1px solid #667eea;
+    color: #667eea;
+}
+
+:host ::ng-deep .edit-btn .p-button:hover {
+    background: #667eea;
+    color: white;
+    transform: scale(1.05);
+}
+
+:host ::ng-deep .delete-btn .p-button:hover {
+    transform: scale(1.05);
+}
+
+:host ::ng-deep .task-status .p-tag {
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+}
+
+/* Tags Styling */
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.task-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: default;
+}
+
+.task-tag:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.no-tags {
+    color: #a0aec0;
+    font-style: italic;
+    font-size: 0.875rem;
+    padding: 0.4rem 0.8rem;
+    background: rgba(160, 174, 192, 0.1);
+    border-radius: 20px;
+    border: 1px solid rgba(160, 174, 192, 0.3);
+}
+
+/* Tag Color Display */
+.tag-color {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Empty State */
+.empty-message {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #718096;
+}
+
+.empty-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.empty-state p {
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .task-list-container {
+        padding: 1rem;
+    }
+
+    .welcome-card {
+        padding: 2.5rem 2rem;
+    }
+
+    .task-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .search-input-card,
+    .search-tabs-card,
+    .task-filters-card,
+    .task-table-card {
+        padding: 1.5rem;
+    }
+
+    .search-input-wrapper {
+        flex-direction: column;
+    }
+
+    :host ::ng-deep .search-btn .p-button {
+        width: 100%;
+    }
+
+    .tab-buttons,
+    .filter-buttons {
+        justify-content: center;
+    }
+
+    .welcome-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    :host ::ng-deep .welcome-btn-primary .p-button,
+    :host ::ng-deep .welcome-btn-secondary .p-button {
+        width: 100%;
+    }
+
+    .task-description {
+        max-width: 150px;
+    }
+
+    .task-actions {
+        flex-direction: column;
+    }
+}

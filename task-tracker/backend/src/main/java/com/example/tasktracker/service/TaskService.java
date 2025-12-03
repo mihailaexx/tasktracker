@@ -24,7 +24,7 @@ public class TaskService {
 
     @Autowired
     private UserRepository userRepository;
-    
+
     @Autowired
     private TagService tagService;
 
@@ -47,12 +47,12 @@ public class TaskService {
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new TaskNotFoundException("Task not found with id: " + taskId));
-        
+
         // Ensure the task belongs to the user
         if (!task.getUser().getId().equals(userId)) {
             throw new RuntimeException("Task does not belong to the user");
         }
-        
+
         return convertToResponse(task);
     }
 
@@ -62,19 +62,19 @@ public class TaskService {
     public TaskResponse createTask(TaskRequest taskRequest, Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
-        
+
         Task task = new Task();
         task.setTitle(taskRequest.getTitle());
         task.setDescription(taskRequest.getDescription());
         task.setStatus(taskRequest.getStatus());
         task.setUser(user);
-        
+
         // Handle tags if provided
         if (taskRequest.getTagIds() != null && !taskRequest.getTagIds().isEmpty()) {
             List<Tag> tags = tagService.getTagsByIdsAndUser(taskRequest.getTagIds(), userId);
             task.getTags().addAll(tags);
         }
-        
+
         Task savedTask = taskRepository.save(task);
         return convertToResponse(savedTask);
     }
@@ -87,23 +87,23 @@ public class TaskService {
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new TaskNotFoundException("Task not found with id: " + taskId));
-        
+
         // Ensure the task belongs to the user
         if (!task.getUser().getId().equals(userId)) {
             throw new RuntimeException("Task does not belong to the user");
         }
-        
+
         task.setTitle(taskRequest.getTitle());
         task.setDescription(taskRequest.getDescription());
         task.setStatus(taskRequest.getStatus());
-        
+
         // Handle tags update
         task.clearTags(); // Clear existing tags
         if (taskRequest.getTagIds() != null && !taskRequest.getTagIds().isEmpty()) {
             List<Tag> tags = tagService.getTagsByIdsAndUser(taskRequest.getTagIds(), userId);
             task.getTags().addAll(tags);
         }
-        
+
         Task updatedTask = taskRepository.save(task);
         return convertToResponse(updatedTask);
     }
@@ -116,13 +116,29 @@ public class TaskService {
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new TaskNotFoundException("Task not found with id: " + taskId));
-        
+
         // Ensure the task belongs to the user
         if (!task.getUser().getId().equals(userId)) {
             throw new RuntimeException("Task does not belong to the user");
         }
-        
+
         taskRepository.delete(task);
+    }
+
+    /**
+     * Search tasks by title or description for a specific user
+     */
+    public List<TaskResponse> searchTasks(String query, Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
+
+        List<Task> tasks = taskRepository
+                .findByUserAndTitleContainingIgnoreCaseOrUserAndDescriptionContainingIgnoreCase(
+                        user, query, user, query);
+
+        return tasks.stream()
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
     }
 
     // Helper methods
@@ -135,14 +151,14 @@ public class TaskService {
         response.setStatus(task.getStatus());
         response.setCreatedAt(task.getCreatedAt());
         response.setUpdatedAt(task.getUpdatedAt());
-        
+
         // Convert tags to TagResponse objects
         List<TagResponse> tagResponses = task.getTags().stream()
-                .map(tag -> new TagResponse(tag.getId(), tag.getName(), tag.getColor(), 
-                           tag.getCreatedAt(), tag.getUpdatedAt()))
+                .map(tag -> new TagResponse(tag.getId(), tag.getName(), tag.getColor(),
+                        tag.getCreatedAt(), tag.getUpdatedAt()))
                 .collect(Collectors.toList());
         response.setTags(tagResponses);
-        
+
         return response;
     }
 }

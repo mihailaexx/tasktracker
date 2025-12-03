@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Task } from '../../core/models/task.model';
 import { TaskService } from '../../core/services/task.service';
 import { AuthService } from '../../core/services/auth.service';
@@ -10,6 +10,7 @@ import { TagModule } from 'primeng/tag';
 import { TableModule } from 'primeng/table';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-task-list',
@@ -23,7 +24,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
     CardModule,
     TagModule,
     TableModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    TranslateModule
   ],
   providers: [ConfirmationService, MessageService]
 })
@@ -32,13 +34,16 @@ export class TaskListComponent implements OnInit {
   filteredTasks: Task[] = [];
   filter: string = 'all';
   isAuthenticated = false;
+  userId: number | null = null;
 
   constructor(
     private taskService: TaskService,
     private authService: AuthService,
     private router: Router,
+    private route: ActivatedRoute,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit(): void {
@@ -51,23 +56,32 @@ export class TaskListComponent implements OnInit {
         }
       }
     );
-    
+
     // Check initial authentication status
     this.isAuthenticated = this.authService.isAuthenticated();
+
+    // Check for userId query param
+    this.route.queryParams.subscribe(params => {
+      if (params['userId']) {
+        this.userId = +params['userId'];
+        this.loadTasks();
+      }
+    });
   }
 
   loadTasks(): void {
-    this.taskService.getTasks().subscribe({
+    const userId = this.userId ? this.userId : undefined;
+    this.taskService.getTasks(userId).subscribe({
       next: (tasks) => {
         this.tasks = tasks;
         this.applyFilter();
       },
       error: (error) => {
         console.error('Error loading tasks:', error);
-        this.messageService.add({ 
-          severity: 'error', 
-          summary: 'Error', 
-          detail: 'Failed to load tasks' 
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to load tasks'
         });
       }
     });
@@ -82,7 +96,7 @@ export class TaskListComponent implements OnInit {
     if (this.filter === 'all') {
       this.filteredTasks = this.tasks;
     } else {
-      this.filteredTasks = this.tasks.filter(task => 
+      this.filteredTasks = this.tasks.filter(task =>
         task.status.toLowerCase() === this.filter
       );
     }
@@ -91,11 +105,11 @@ export class TaskListComponent implements OnInit {
   formatStatusDisplay(status: string): string {
     switch (status) {
       case 'TODO':
-        return 'To Do';
+        return this.translate.instant('TASKS.STATUS.TODO');
       case 'IN_PROGRESS':
-        return 'In Progress';
+        return this.translate.instant('TASKS.STATUS.IN_PROGRESS');
       case 'DONE':
-        return 'Done';
+        return this.translate.instant('TASKS.STATUS.DONE');
       default:
         return status;
     }
@@ -124,7 +138,7 @@ export class TaskListComponent implements OnInit {
 
   confirmDelete(task: Task): void {
     this.confirmationService.confirm({
-      message: `Are you sure you want to delete the task "${task.title}"?`,
+      message: this.translate.instant('TASKS.CONFIRM_DELETE'),
       header: 'Confirm Deletion',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
@@ -137,18 +151,18 @@ export class TaskListComponent implements OnInit {
     this.taskService.deleteTask(id).subscribe({
       next: () => {
         this.loadTasks(); // Reload the tasks list
-        this.messageService.add({ 
-          severity: 'success', 
-          summary: 'Success', 
-          detail: 'Task deleted successfully' 
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Task deleted successfully'
         });
       },
       error: (error) => {
         console.error('Error deleting task:', error);
-        this.messageService.add({ 
-          severity: 'error', 
-          summary: 'Error', 
-          detail: 'Failed to delete task' 
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to delete task'
         });
       }
     });
