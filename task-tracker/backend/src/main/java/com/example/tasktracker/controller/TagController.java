@@ -116,4 +116,33 @@ public class TagController {
     public List<TagResponse> getTagsByUserId(@PathVariable Long userId) {
         return tagService.getUserTags(userId);
     }
+
+    /**
+     * Create a new tag for a specific user (Admin only)
+     */
+    @PostMapping("/user/{userId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ADMIN')")
+    public TagResponse createTagForUser(@PathVariable Long userId, @Valid @RequestBody TagRequest tagRequest) {
+        return tagService.createTag(tagRequest, userId);
+    }
+
+    /**
+     * Update a tag for a specific user (Admin only)
+     */
+    @PutMapping("/user/{userId}/tag/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public TagResponse updateTagForUser(@PathVariable Long userId, @PathVariable Long id, @Valid @RequestBody TagRequest tagRequest) {
+        return tagService.updateTag(id, tagRequest, userId);
+    }
+
+    /**
+     * Delete a tag for a specific user (Admin only)
+     */
+    @DeleteMapping("/user/{userId}/tag/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasRole('ADMIN')")
+    public void deleteTagForUser(@PathVariable Long userId, @PathVariable Long id) {
+        tagService.deleteTag(id, userId);
+    }
 }

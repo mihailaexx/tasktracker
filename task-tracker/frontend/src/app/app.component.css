@@ -16,7 +16,6 @@
 :host ::ng-deep .modern-navbar .p-menubar-root-list {
   background: transparent !important;
   border: none !important;
-  gap: 2rem;
 }
 
 /* Menu Item Styles */

@@ -187,7 +187,8 @@ export class TagManagementComponent implements OnInit {
   }
 
   createTag(tagRequest: TagRequest): void {
-    this.tagService.createTag(tagRequest).subscribe({
+    const userId = this.userId ? this.userId : undefined;
+    this.tagService.createTag(tagRequest, userId).subscribe({
       next: (tag: Tag) => {
         this.tags.push(tag);
         this.messageService.add({
@@ -221,7 +222,8 @@ export class TagManagementComponent implements OnInit {
   }
 
   updateTag(id: number, tagRequest: TagRequest): void {
-    this.tagService.updateTag(id, tagRequest).subscribe({
+    const userId = this.userId ? this.userId : undefined;
+    this.tagService.updateTag(id, tagRequest, userId).subscribe({
       next: (updatedTag: Tag) => {
         const index = this.tags.findIndex(t => t.id === id);
         if (index !== -1) {
@@ -269,7 +271,8 @@ export class TagManagementComponent implements OnInit {
   }
 
   deleteTag(id: number): void {
-    this.tagService.deleteTag(id).subscribe({
+    const userId = this.userId ? this.userId : undefined;
+    this.tagService.deleteTag(id, userId).subscribe({
       next: () => {
         this.tags = this.tags.filter(t => t.id !== id);
         this.messageService.add({

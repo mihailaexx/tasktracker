@@ -40,6 +40,7 @@ export class TaskFormComponent implements OnInit {
   isAuthenticated = false;
   tags: Tag[] = [];
   selectedTags: number[] = [];
+  userId: number | null = null;
 
   statusOptions = [
     { label: 'To Do', value: TaskStatus.TODO },
@@ -75,6 +76,13 @@ export class TaskFormComponent implements OnInit {
     // Check initial authentication status
     this.isAuthenticated = this.authService.isAuthenticated();
 
+    // Check for userId query param
+    this.route.queryParams.subscribe(params => {
+      if (params['userId']) {
+        this.userId = +params['userId'];
+      }
+    });
+
     if (this.isAuthenticated) {
       // Load tags first
       this.loadTags();
@@ -89,7 +97,8 @@ export class TaskFormComponent implements OnInit {
   }
 
   loadTags(): void {
-    this.tagService.getTags().subscribe({
+    const userId = this.userId ? this.userId : undefined;
+    this.tagService.getTags(userId).subscribe({
       next: (tags) => {
         this.tags = tags;
       },
@@ -144,15 +153,21 @@ export class TaskFormComponent implements OnInit {
       tagIds: this.selectedTags.filter(id => id !== undefined)
     };
 
+    const userId = this.userId ? this.userId : undefined;
+
     if (this.isEditMode && this.taskId) {
-      this.taskService.updateTask(this.taskId, taskData).subscribe({
+      this.taskService.updateTask(this.taskId, taskData, userId).subscribe({
         next: () => {
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
             detail: 'Task updated successfully'
           });
-          this.router.navigate(['/tasks']);
+          if (this.userId) {
+            this.router.navigate(['/tasks'], { queryParams: { userId: this.userId } });
+          } else {
+            this.router.navigate(['/tasks']);
+          }
         },
         error: (error) => {
           console.error('Error updating task:', error);
@@ -164,14 +179,18 @@ export class TaskFormComponent implements OnInit {
         }
       });
     } else {
-      this.taskService.createTask(taskData).subscribe({
+      this.taskService.createTask(taskData, userId).subscribe({
         next: () => {
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
             detail: 'Task created successfully'
           });
-          this.router.navigate(['/tasks']);
+          if (this.userId) {
+            this.router.navigate(['/tasks'], { queryParams: { userId: this.userId } });
+          } else {
+            this.router.navigate(['/tasks']);
+          }
         },
         error: (error) => {
           console.error('Error creating task:', error);
@@ -186,7 +205,11 @@ export class TaskFormComponent implements OnInit {
   }
 
   cancel(): void {
-    this.router.navigate(['/tasks']);
+    if (this.userId) {
+      this.router.navigate(['/tasks'], { queryParams: { userId: this.userId } });
+    } else {
+      this.router.navigate(['/tasks']);
+    }
   }
 
   navigateToLogin(): void {

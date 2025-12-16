@@ -129,11 +129,19 @@ export class TaskListComponent implements OnInit {
   }
 
   addTask(): void {
-    this.router.navigate(['/tasks/new']);
+    if (this.userId) {
+      this.router.navigate(['/tasks/new'], { queryParams: { userId: this.userId } });
+    } else {
+      this.router.navigate(['/tasks/new']);
+    }
   }
 
   editTask(id: number): void {
-    this.router.navigate(['/tasks/edit', id]);
+    if (this.userId) {
+      this.router.navigate(['/tasks/edit', id], { queryParams: { userId: this.userId } });
+    } else {
+      this.router.navigate(['/tasks/edit', id]);
+    }
   }
 
   confirmDelete(task: Task): void {
@@ -148,7 +156,8 @@ export class TaskListComponent implements OnInit {
   }
 
   deleteTask(id: number): void {
-    this.taskService.deleteTask(id).subscribe({
+    const userId = this.userId ? this.userId : undefined;
+    this.taskService.deleteTask(id, userId).subscribe({
       next: () => {
         this.loadTasks(); // Reload the tasks list
         this.messageService.add({

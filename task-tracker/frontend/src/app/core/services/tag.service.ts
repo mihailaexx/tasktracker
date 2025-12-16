@@ -31,21 +31,30 @@ export class TagService {
   /**
    * Create a new tag
    */
-  createTag(tag: TagRequest): Observable<Tag> {
+  createTag(tag: TagRequest, userId?: number): Observable<Tag> {
+    if (userId) {
+      return this.http.post<Tag>(`${this.apiUrl}/user/${userId}`, tag);
+    }
     return this.http.post<Tag>(this.apiUrl, tag);
   }
 
   /**
    * Update an existing tag
    */
-  updateTag(id: number, tag: TagRequest): Observable<Tag> {
+  updateTag(id: number, tag: TagRequest, userId?: number): Observable<Tag> {
+    if (userId) {
+      return this.http.put<Tag>(`${this.apiUrl}/user/${userId}/tag/${id}`, tag);
+    }
     return this.http.put<Tag>(`${this.apiUrl}/${id}`, tag);
   }
 
   /**
    * Delete a tag
    */
-  deleteTag(id: number): Observable<void> {
+  deleteTag(id: number, userId?: number): Observable<void> {
+    if (userId) {
+      return this.http.delete<void>(`${this.apiUrl}/user/${userId}/tag/${id}`);
+    }
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 

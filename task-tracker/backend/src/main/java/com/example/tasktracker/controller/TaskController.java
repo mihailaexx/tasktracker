@@ -106,4 +106,33 @@ public class TaskController {
     public List<TaskResponse> getTasksByUserId(@PathVariable Long userId) {
         return taskService.getAllTasks(userId);
     }
+
+    /**
+     * Create a new task for a specific user (Admin only)
+     */
+    @PostMapping("/user/{userId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ADMIN')")
+    public TaskResponse createTaskForUser(@PathVariable Long userId, @Valid @RequestBody TaskRequest taskRequest) {
+        return taskService.createTask(taskRequest, userId);
+    }
+
+    /**
+     * Update a task for a specific user (Admin only)
+     */
+    @PutMapping("/user/{userId}/task/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public TaskResponse updateTaskForUser(@PathVariable Long userId, @PathVariable Long id, @Valid @RequestBody TaskRequest taskRequest) {
+        return taskService.updateTask(id, taskRequest, userId);
+    }
+
+    /**
+     * Delete a task for a specific user (Admin only)
+     */
+    @DeleteMapping("/user/{userId}/task/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasRole('ADMIN')")
+    public void deleteTaskForUser(@PathVariable Long userId, @PathVariable Long id) {
+        taskService.deleteTask(id, userId);
+    }
 }
